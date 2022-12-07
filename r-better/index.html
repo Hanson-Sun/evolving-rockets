@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Rocket but better</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<canvas id="test"></canvas><br>
+	  	<div id = "data">
+		<div id = "stats"></div>
+		<table>
+			<tr>
+				<td><label for="closeness">Use closest distance reached</label>
+					<input type="checkbox" name="closeness" id="closeness" checked>
+				</td>
+				<td>	
+					<label for="scale">Final Fitness Scale</label>
+					<input type="number" name="scale" id="scale" value = "100">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="sucessbonus">Sucess Bonus</label>
+					<input type="checkbox" name="sucessbonus" id="sucessbonus" checked>
+				</td>
+				<td>
+						<label for="bonus">Sucess Bonus Factor</label>
+						<input type="number" name="bonus" id="bonus" value = "2">
+				</td>
+
+			</tr>
+			<tr>
+				<td>
+					<label for="collidepenalty">Obstacle collision penalty</label>
+					<input type="checkbox" name="collidepenalty" id="collidepenalty">			
+				</td>			
+				<td>	
+					<label for="penalty">Collision Penalty Factor</label>
+					<input type="number" name="penalty" id="penalty"  value = "0.5">
+				</td>			
+			</tr>
+			<tr>
+				<td>
+					<label for="fitnesstype">Choose a fitness type</label>
+					<select name="fitnesstype" id="fitnesstype" value = "inverse">
+						<option value="inverse">Inverse</option>
+						<option value="inversesqr">Inverse Square</option>
+						<option value="inversecube">Inverse Cube</option>
+						<option value="linear">Linear</option>
+						<option value="log">log</option>
+					</select>
+				</td>
+				<td>
+					<label for="size">Population Size (use values over 100)</label>
+					<input type="number" name="size" id="size"  value = "500" min = "2">
+				</td>
+			</tr>
+		</table>
+		<br>
+		<button onclick = "updatefunction()">Update</button>
+    <script src="script.js"></script>
+  </body>
+</html>

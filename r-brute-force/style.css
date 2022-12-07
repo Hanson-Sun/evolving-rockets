@@ -1,0 +1,14 @@
+*{
+	margin:0;
+	padding:0;
+}
+canvas{
+
+	height:99vh;
+	padding:0;
+	margin:0;
+	background:rgb(18,18,18);
+}
+body{
+	background-color: rgb(230,230,245);
+}

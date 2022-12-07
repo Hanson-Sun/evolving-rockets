@@ -79,7 +79,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light" id = "navbar">
   <div class="container-fluid">
 
-	  <img src="menu.svg" alt="" onclick="navopen()" id = "open">
+	  <img src="assets/menu.svg" alt="" onclick="navopen()" id = "open">
     <a class="navbar-brand" href="#">Evolutionary Genetic Algorithms</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -87,13 +87,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="https://rocket-brute-force-method.hansonsun.repl.co">Brute Force</a>
+          <a class="nav-link" href="r-brute-force/index.html">Brute Force</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://rocket-fitness-function-comparison.hansonsun.repl.co">Test Out Fitness!</a>
+          <a class="nav-link" href="r-fitness/index.html">Test Out Fitness!</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://rocket-but-better.hansonsun.repl.co">Smarter version</a>
+          <a class="nav-link" href="r-better/index.html">Smarter version</a>
         </li>
 		 <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1240,7 +1240,7 @@ window.requestAnimationFrame(animate);
 				</code>
 			</pre>
 				<p>If you look through my code, you will find that I added a function that enables the user to add obstacles. This really isn't necessary (or is it?) But I just thought it was cool.</p>
-				<a class = "demo" href="https://rocket-brute-force-method.hansonsun.repl.co/">Final Product</a>
+				<a class = "demo" href="r-brute-force/index.html">Final Product</a>
 
 			
 		</div>
@@ -1259,7 +1259,7 @@ window.requestAnimationFrame(animate);
 			<h2 id = "whatisfitness">What is fitness?</h2>
 			<p> What a fundamental question, not only in programming but also in society. How do we perceive fitness? Money, strength, intelligence? Well is great for me to report that I don't have any of those! ahahhahah. . .. .... . Anyways, a good definition of fitness can accurately demonstrate the wellbeing and survival rate of that subject. For example, with money, we kinda need that to survive in modern society. So money is perhaps a good indication of fitness. On the other hand, going back a few ten thousand years back to the god ol' cavemen era. Money isn't gonna do you much good; instead, physical strength could lead to better hunts and better survival rates. Therefore, it makes more sense to say that physical strength is a better indication of fitness. What does this tell us? Fitness functions are different depending on the context, and finding an accurate one is extremely crucial. To explain, imagine using money as a fitness measurement for cavemen? Bruh, I got a bunch of paper hahaha, I can totally survive when a bunch of scary animals be attacking me! As you can see, if the wrong fitness function is chosen, your pretty much toast. This is kinda weird and difficult to quantify. How do we pick an efficient fitness function? That's a good question, and I don't know. Uhh, so what should I do?  I guess I can make a demo comparing multiple fitness functions and see how they work against each other.</p>
 			<p>
-				<img src="fitness.png" alt="">
+				<img src="assets/fitness.png" alt="">
 			</p>
 			<p>So here is the fitness function that you can kind of mix and match together. The code for this was pretty simple. I just made some minor adjustments to the fitness function in the rocket class. First, we actually need to set up some variables.</p>
 			<pre>
@@ -1373,14 +1373,14 @@ function updatefunction() {
 				</code>
 			</pre>
 			<p>Now you can take a look at differnt fitness function and see how they work! <br><br>
-			<a class = "demo" href="https://rocket-fitness-function-comparison.hansonsun.repl.co/">Test Fitness!</a>
+			<a class = "demo" href="r-fitness/index.html">Test Fitness!</a>
 			</p>
 		</div>
 		<div class = "textblock">
 			<h2 id = "featurevectors">Feature Vectors?</h2>
 			<p>We now know what to do with our fitness function, but is there an even better way to optimize the algorithm? There sure is! You remember when I said the DNA is just a collection of the force vectors in each frame, and this method was pretty stupid? In fact, this method is so stupid it basically just brute forces everything. Those collections of forces are called feature vectors; they represent some data about the object, kinda like biological DNA. It turns out that some types of DNA are better than others, and picking the best type of feature vector can also improve evolution rates and overall success. Now it's time to look at a better and improved version with the steering algorithm and weights. </p>
 			<p> So what do the steering algorithms be about, you ask? It's basically just a type of algorithm that literally describes how an object should move such that it arrives at the target. The details about this algorithm are kinda not evolution, nor genetic, so it will be glossed over briefly. Essentially, it just looks at your current position and the target's current position. Then based on the distance to the target and the direction, it creates a new force vector that pulls the object towards the target. If you want to think about this mathematically, let p1 be the position vector of the object and p2 the position vector of the target. The difference will be p1 - p2 and u can imagine the "force" vector to kinda be like some value n, for n*(p1-p2). Of course, everything is more nuanced, but it's late at night, and I'm tired. Once again currently thinking about my life decisions and choices by coding everything writing this in 3 days.</p>
-			<p><a href="https://www.askforgametask.com/tutorial/steering-behaviors-seek/"><img src="steer.png" alt=""></a></p>
+			<p><a href="https://www.askforgametask.com/tutorial/steering-behaviors-seek/"><img src="assets/steer.png" alt=""></a></p>
 			<P>Nice, let's take a look at what the code would look like then. We would need to add a steer function inside the rocket class. Ok, that's kinda clear (jk, who am I kidding, my code is clear? pffff) But what's all that DNA stuff you got at the bottom? Dw we gonna revisit that later when we talk about weights.</P>
 			<pre>
 				<code class ="language-javascript">
@@ -1440,7 +1440,7 @@ function updatefunction() {
 				</code>
 			</pre>
 			<p>We just changed the size of the DNA to 6 elements. We technically don't need 6 elements, but it's just there in case you want an ext weight idk? Essentially those are the only changes that are required for a much better version with a seeking algorithm. Here go check it out!</p>
-			<a class = "demo" href="https://rocket-but-better.hansonsun.repl.co">Improved with steering</a>
+			<a class = "demo" href="r-better/index.html">Improved with steering</a>
 		</div>
 		<div class = "textblock">
 			<h2 id = "interaction">Interactive selection</h2>
@@ -1448,8 +1448,8 @@ function updatefunction() {
 
 	</p>
 			<p>
-			So we start things off as default<br><img src="intial.png" alt=""></p>
-			<p>Then we block off one side and a lot of the rockets start to ignore the blocked side.<br><img src="blocked.png" alt=""></p>
+			So we start things off as default<br><img src="assets/initial.png" alt=""></p>
+			<p>Then we block off one side and a lot of the rockets start to ignore the blocked side.<br><img src="assets/blocked.png" alt=""></p>
 			
 		</div>
 		<div class = "textblock">
@@ -1472,14 +1472,14 @@ bye byeeeee
 
 	</div>
 
-	<script src="script.js">
+	<script src="scripts/script.js">
 	
 	</script>
-	<script src="titlebanner.js"></script>
+	<script src="scripts/titlebanner.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
 	 crossorigin="anonymous">
 	</script>
-<script src="prism2.js"></script>
+<script src="scripts/prism2.js"></script>
 <script type="text/javascript">
 // Optional
 Prism.plugins.NormalizeWhitespace.setDefaults({
