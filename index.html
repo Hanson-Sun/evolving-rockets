@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Evolutionary Genetic Algorithms</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="prism2.css">
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="line-numbers">
+	<div id="titlebanner">
+		<canvas id="titleinteraction"></canvas>
+		<h1>Evolutionary Genetic Algorithms</h1>
+		<div class="textblock">"In the broadest sense, evolution is merely change, and so is all-pervasive; galaxies, languages,
+			and political systems all evolve. Biological evolution ... is change in the properties of populations of organisms that
+			transcend the lifetime of a single individual."<br>
+		<span style="text-align:right; padding-right:2rem;"> - Douglas J. Futuyma</span>
+		
+		</div>
+	</div>
+
+	<div id="mySidenav" class="sidenav">
+
+		<a href="javascript:void(0)" class="closebtn" onclick="navclose()">&times;</a>
+		<a href="#titlebanner">Top</a>
+		<a href="#whatarethey">What are they?</a>
+		<ul class="sidenavlist">
+			<li><a href="#evolutionofcode">Evolution of Code</a></li>
+			<li><a href="#bitmoretech">A bit more technical</a></li>
+		</ul>
+
+		<a href="#review">Review of Evolution and Natural Selection</a>
+		<ul>
+			<li><a href="#variation">Variation and Inheritance</a> </li>
+			<li><a href="#selection">Selection</a> </li>
+			<li><a href="#time">Time and Adaptation</a> </li>
+		</ul>
+		<a href="#coding"> Coding, coding, coding . . .</a>
+		<ul class="sidenavlist">
+			<li><a href="#introsetup"> Introduction and Setup</a><br>
+			<ul>
+				<li><a href="#codelogistics"> Code logistics</a></li>
+				<li><a href="#html"> HTML</a></li>
+				<li><a href="#javascript">Javascript</a></li>
+			</ul>
+		
+		</li><br>
+		<li><a href="#population">Population</a></li>
+		<li><a href="#picking">Picking, Choosing, Selecting</a></li>
+		<li><a href="#genetics">Genetics and Reproduction</a><br>
+			<ul>
+				<li><a href="#reproduction">Reproduction</a></li>
+			</ul>
+		</li><br>
+		<li><a href="#mutation">Mutation</a></li>
+		</ul>
+		<a href="#combine">Combining and Summary</a>
+		<a href="#further">Further Extentions</a>
+			<ul>
+				<li><a href="#whatisfitness">What is fitness?</a></li>
+				<li><a href="#featurevectors">Feature Vectors?</a></li>
+				<li><a href="#interaction">The role of interaction</a></li>
+			</ul>
+		</li>
+		<a href="#final">Final Comments</a><br>
+	
+		
+</div>
+
+<!-- Use any element to open the sidenav -->
+
+<div id = "main">	
+
+	<nav class="navbar navbar-expand-lg navbar-light" id = "navbar">
+  <div class="container-fluid">
+
+	  <img src="menu.svg" alt="" onclick="navopen()" id = "open">
+    <a class="navbar-brand" href="#">Evolutionary Genetic Algorithms</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="https://rocket-brute-force-method.hansonsun.repl.co">Brute Force</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://rocket-fitness-function-comparison.hansonsun.repl.co">Test Out Fitness!</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://rocket-but-better.hansonsun.repl.co">Smarter version</a>
+        </li>
+		 <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Source Code
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="https://repl.it/@HansonSun/rocket-fitness-function-comparison#index.html">Test Out Fitness!</a></li>
+            <li><a class="dropdown-item" href="https://repl.it/@HansonSun/rocket-but-better#index.html">Smarter version</a></li>
+            <li><a class="dropdown-item" href="https://repl.it/@HansonSun/rocket-brute-force-method#index.html">Brute Force</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+	<div id="content" >
+<br><br><br>
+		<div class = "textblock">
+			<h2 id = "whatarethey">Evolutionary Genetic Algorithms, <br>
+			What are they?</h2>
+			<p>Have you ever made something, and you spent countless hours trying to perfect the parameters, but it. Still. Does. Not. Work. Do you ever just stare into the wonders of the world and wonder how humans got here today? Do you ever just stare at your code and wonder why it is being stupid and not working? Do you ever just contemplate your life decisions of trying to code and instantly regretting everything and .... ok too far time to go back. HahHAha, I've got some great news for you! Ever thought about making your code evolve? WOw, just think about all the countless hours you can save (not really), you can just let your program do its stuff, and it gets good? Hmmm, that sounds great, it must be a really fun and exciting process (it isn't btw)! I guess the thing ur looking for must be: </p>
+			<h4 id = "evolutionofcode">The Evolution Of Code</h4>
+			<p>Well just as the name implies, they are basically a type of algorithm that can evolve by using similar methods as those in biological evolution. You remember how they were talking about Mendel's pea plants and punnet squares in highschool bio? This is the same thing, except with code. We, humans, try to be smart, but it turns out that nature already figured everything out a looooooong time ago, so guess what? We copy what nature did with biological life? Hecc yeah, cheating and plagiarism is the best way to go (I'm sorry if any of my teachers read this, please don't whoop me)! Just by doing some clever manipulation, we arrive at a totally new approach to compute programming. Boring old code that doesn't change by itself, HA, absolute trash, we now have code capable of improving itself automatically! Great, right? </p>
+		</div>
+			<div class = "textblock">
+			<h3 id = "bitmoretech">A bit more technical</h3>
+			<p>
+				So things are never as easy as you want, and there turns out to be 3 types of genetic algorithms. 
+				<ol>
+					<li><b>Traditional Genetic Algorithm.</b><br> This is similar to a smart brute force method. It's like trying to walk to the end of a maze, except everything is random, and you do it with an unrealistically large amount of people. Then you get the more successful people that get close to the end to create offspring. And of course, their children also happen to retain memory perfectly; the cycle continues until perfect offspring (What my parents expect me to be) are produced. The question then becomes, how do we measure successfulness, and how do we create offspring (like the non-biological type)?
+					</li>
+					<li><b>Interactive Selection.</b> <br> Sometimes humans are still kinda superior, and our computers sometimes need help. Basically, the algorithm also requires input from YOU, I know right, YOU. Let's imagine some jokes, and you wanted to make an evolutionary algorithm that generated more funny jokes. It turns out that funniness is quite difficult to quantify numerically. For the most part, humans do a better job quantifying these abstract ideas (although that's not true for some people I know). So, with an interactive selection algorithm, you would train the algorithm with the funniest jokes you picked out. Then it can produce more funny jokes by itself.
+					</li>
+					<li><b>Ecosystem Simulation.</b> <br> Simulation of ecosystems. Literally, as the name implies, this type of algorithm aims to simulate semi-realistic population evolution in ecosystems. It investigates the mating and survival interactions of pseudo-living creatures. The key characteristic of an ecosystem simulation is the continuity between the parents and the offspring. It's like your parents are actually still alive when they created you, and all the parents in the world don't simultaneously create offspring and die-off when they are born.
+					</li>
+				</ol>
+			</p>
+			<p>I will be focusing mainly on Traditional Genetic Algorithms, with a twist with Interactive selection. Ecosystem simulations, uhh, I could've done that but then I also didn't have enough time.</p>
+
+		</div>
+		<div class = "textblock">
+			<h2 id = "review">Review of Evolution Natural Selection</h2>
+			<h4>Fun? no.</h4>
+		<p>
+			So this really smart guy named Darwin thought real hard and came up with the idea of biological evolution. <br>
+			As you may know, actually you should know by now, evolution is the idea of "descent with modification" as quoted by Darwin. In other words, the concept that species evolve with generations, branching to different variations, but still sharing the same species.
+		</p>
+		<p>			
+		A process of how things evolved, and he named this phenomenon, Natural selection. To summarize, natural selection is the basic idea of the "survival of the fittest." Those with the best traits have the highest probability of survival, and in turn, the most likely to pass on offspring. So, only those with the optimal traits survive, and the better get better while the worse just die. Sadly, it turns out it isn't as simple as it sounds, and there are actually 3 integral parts of the process.
+		<ol>
+			<li id = "variation"><b>Variation and Inheritance</b> <br>
+			Variation is literally the variation of traits, that doesn't help? Sigh, variation is the distinction of different versions of the same thing. For example, some people have different eyes: different iris colours and different sizes. Variation is necessary for natural selection, if everything is the same, there won't be any possible combinations. This also leads to the idea of random mutations, this ensures there is always variation in a population. <br>
+			Inheritance is the process by which different parental traits are passed onto offspring. It outlines how those traits are combined and how they interact during mating processes.
+
+			</li>
+			<li id = "selection"><b>Selection</b>  <br>
+			This can be further broken down into Survival and Reproduction. Only those who survive the best can reproduce and pass on their traits to their offspring. In other words, selection literally selects which members of the population are the "fittest" and outlines how their traits are passed on. Well, you may ask, what does fittest mean? How do you calculate fitness? Hmm, that a good question and the short answer is that it depends. Is fitness money, or is fitness referring to physical fitness? That clearly depends on your situation. If you were an animal out in the wild, I don't think money can do you much good. On the other hand, if you were a human in modern society, money can definitely pass on your traits. Determining what fitness is, and how it is calculated, is perhaps one of the most essential processes in the entire evolutionary algorithm. As will be demonstrated later on, a good fitness function can speed up the evolution process tremendously. 
+			</li>
+			<li id = "time"><b> Time and Adaptation </b><br>
+			Evolution and natural selection don't happen instantly, it takes time, and it happens to be a very very very long time in nature. Well, coding isn't exactly natural, and we can shrink the time it takes to evolve. But it will at least still take a few generations nonetheless. As more time passes, more combinations of traits are tested out and the more successful combinations are passed on. As the population gets more successful, it gets better at dealing with the problems it faces. We call this Adaptation. But as the population adapts to a certain point, it easily resolves all of the issues it faces and there is no need for evolution to occur anymore. Evolution needs a driving force; creatures evolve out of necessity, not luxury. Later on, this is where the Interactive selection process comes in to help with the overall evolution process. 
+			</li>
+
+
+		</ol>
+	Oof. after all that boring stuff, it's finally time to talk about the code!
+		</p>
+	
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "coding">Coding, coding, coding . . . </h2>
+
+			<p>The best part about coding is figuring out stuff by yourself, so my explanations here won't be too detailed so you can also feel the thrill of spending 2 hours debugging aimlessly! (totally not because I'm lazy, and I don't want to explain)
+I will be splitting up into a few sections</p>
+
+			<ul>
+				<li>Intoduction and setup</li>
+				<li>Population</li>
+				<li>Selection</li>
+				<li>Genetics and Reproduction</li>
+				<li>Mutation</li>
+			</ul>
+
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "introsetup">Introduction and Setup</h2>
+			<p>To show how an evolutionary algorithm works, I decided to make a "smart" rocket that tries to seek a target while evading obstacles. First of all, everything will be written in vanilla javascript with external libraries, ahahhaha no shortcuts for you. If you are unfamiliar with javascript, uhh, then u should learn that first. We will take a traditional genetic algorithm to tackle this problem. If your wonder what the final product will look like at the end, just check out the huge banner when you saw it when you first entered the website.</p>
+			<h4 id = "codelogistics">Code logistics Setup</h4>
+			<p>Everything is just your typical website format. HTML, CSS, and JavaScript. We will be using the HTML canvas element.</p>
+			<h5 id = "html"> HTML</h5>
+			<pre>
+				<code class = "language-html">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
+    &lt;title&gt;rocket&lt;/title&gt;
+    &lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;canvas id = &quot;test&quot;&gt;&lt;/canvas&gt;
+   	&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+				</code>
+			</pre>
+
+			<h5 id = "javascript">Javascript</h5>
+			<p>I like to have my own vector math class, just to make my life easier as I go on. it's just a collection of the basic vector operations, which will be extremely useful later on when we try to move the rocket around.</p>
+			<pre>
+   				<code class="language-javascript">
+class Vector2D {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	add(vect) {
+		return (new Vector2D(this.x + vect.x, this.y + vect.y));
+	}
+
+	sub(vect) {
+		return (new Vector2D(this.x - vect.x, this.y - vect.y));
+	}
+	mult(a) {
+		return (new Vector2D(this.x * a, this.y * a));
+	}
+
+	dot(vect) {
+		return this.x * vect.x + this.y * vect.y;
+	}
+
+	cross(vect) {
+		return this.x * vect.y - this.y * vect.x;
+	}
+
+	mag() {d
+		return Math.sqrt((this.x * this.x) + (this.y * this.y));
+	}
+	magsqr() {
+		return (Math.pow(this.x, 2)) + (Math.pow(this.y, 2));
+	}
+
+	normalize() {
+		this.mag = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+		return (new Vector2D((this.x / this.mag), (this.y / this.mag)))
+	}
+
+	findAngle(vect, type = "deg") {
+		this.dot = this.x * vect.x + this.y * vect.y;
+		this.mag1 = ((this.x ** 2) + (this.y ** 2)) ** 0.5;
+		this.mag2 = ((vect.x ** 2) + (vect.y ** 2)) ** 0.5;
+		if (type == "deg") {
+			return Math.acos(this.dot / this.mag1 / this.mag2) * 180 / Math.PI;
+		} else if (type == "rad") {
+			return Math.acos(this.dot / this.mag1 / this.mag2);
+		}
+	}
+}
+
+
+   				</code>
+			</pre>
+			<p>Before we go anywhere, we need to set up the HTML canvas so you can actually see things. Although I will admit javascript isn't the best language to use for this, it also happens to be very easy to share as a website. Besides, I clearly don't value my own mental health. That's also the reason why I'm writing this entire thing.</p>
+			<pre>
+				<code class = "language-javascript">
+var ctx = document.getElementById("test");
+var c = ctx.getContext("2d");
+ctx.width = document.body.clientWidth; 
+ctx.height = document.body.clientHeight; 
+ctx.width = 450;					
+				</code>
+			</pre>
+			<p>It turns out we also need an obstacle class and a target class. I made both the obstacle and target circles because they are the easiest to use for no other reason. </p>
+			<pre>
+				<code class = "language-javascript">
+class Target {
+	constructor(x, y, radius) {
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		targets.push(this);
+	}
+	targetDraw() {
+		c.beginPath();
+		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+		c.fillStyle = "rgba(50, 255, 90, 0.4)";
+		c.fill();
+		c.stroke();
+	}
+}					
+				</code>
+			</pre>
+			<pre>
+				<code class = "language-javascript">
+class Obstacle {
+	constructor(x, y, radius) {
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		obstacles.push(this);
+	}
+	obstacleDraw() {
+		c.beginPath();
+
+		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+		c.fillStyle = "rgba(255, 100, 100, 0.9)";
+
+		c.fill();
+
+	}
+
+}			
+				</code>
+			</pre>
+
+<p>Next, we need to establish a method to draw the rocket class and start the animation. I chose a triangle as my rocket because I wanted to show rotation, that is a personal choice, and if you value your time, you should not copy me. One important characteristic is the lifespan of the rocket - it must be finite so it leaves a chance for a new population to run.
+</p>
+<pre>
+	<code class = "language-javascript">
+class Rocket {
+	constructor(position, velocity, acceleration, dna = new DNA()) {
+		this.position = position;
+		this.velocity = velocity;
+		this.acceleration = acceleration;
+		this.dna = dna;
+		this.completed = false;
+		this.crash = false;
+		this.count = 0;
+		rockets.push(this);
+		this.isrun = true;
+		this.fitness = 0;
+		this.closeness = Infinity;
+	}
+	applyForce(x) {
+		this.acceleration = this.acceleration.add(x)
+	}
+	applyAcceleration() {
+		this.velocity = this.velocity.add(this.acceleration);
+	}
+	applyVelocity() {
+		this.position = this.position.add(this.velocity);
+	}
+	applyGravity() {
+		this.acceleration = this.acceleration.add(gravity)
+	}
+	wallCollisions() {
+		if (this.position.x >= ctx.width) {
+			this.position.x = ctx.width;
+			this.velocity.x *= -1;
+
+		} if (this.position.x <= 0) {
+			this.position.x = 0;
+			this.velocity.x *= -1;
+
+		} if (this.position.y >= ctx.height) {
+			this.position.y = ctx.height;
+			this.velocity.y *= -1;
+
+		} if (this.position.y <= 0) {
+			this.position.y = 0;
+			this.velocity.y *= -1;
+		}
+	}
+
+	targetCollision() {
+		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		if (distance < target.radius * target.radius) {
+			this.completed = true;
+		}
+	}
+
+	obstacleCollision() {
+		for (o of obstacles) {
+			var distance = ((this.position.x - o.x) ** 2 + (this.position.y - o.y) ** 2);
+			if (distance < o.radius * o.radius) {
+				this.crash = true;
+			}
+		}
+	}
+	updatePosition() {
+		if (this.count >= lifespan) {
+			var index = rockets.indexOf(this);
+			if (index > -1) {
+				rockets.splice(index, 1);
+			}
+			this.isrun = false;
+		}
+		if (this.isrun) {
+			this.obstacleCollision();
+			this.targetCollision();
+			this.calculateCloseness();
+			if (!this.completed && !this.crash) {
+				this.applyForce(this.dna.genes[this.count]);
+				this.applyAcceleration();
+				this.applyGravity();
+				if(this.velocity.mag()>5){this.velocity= (this.velocity.normalize()).mult(5)}
+				this.applyVelocity();
+				this.wallCollisions();
+				this.acceleration.mult(0);
+				this.count++;
+			}
+
+		}
+
+	}
+
+	drawPosition() {
+		//0.244978,  22.36067977 1.5707
+
+		var hyp = 11.180;
+		var angle = 1.5707;
+		var theta = Math.atan2(-this.velocity.x, this.velocity.y) + angle;
+
+		var path = new Path2D();
+		path.moveTo(this.position.x + hyp * Math.cos(theta + 3.6051521), this.position.y + hyp * Math.sin(theta + 3.6051521));
+		path.lineTo(this.position.x + 20 * Math.cos(theta), this.position.y + 20 * Math.sin(theta));
+		path.lineTo(this.position.x + hyp * Math.cos(theta + 2.67785867), this.position.y + hyp * Math.sin(theta + 2.67785867));
+		c.fillStyle = "rgba(255, 255, 255, 0.4)";
+		c.fill(path);
+
+	}
+
+}
+	</code>
+</pre>
+<p>And to start off the simulation, we need to use window.requestanimationframe for the most stable frame rate. We also need to initialize and create our obstacles and targets.</p>
+<pre>
+	<code class = "language-javascript">
+var target = new Target(ctx.width / 2, 150, 20);
+
+for (i = 0; i < ctx.width * 0.7; i = i + 10) {
+	var obstacle = new Obstacle(50 + i, 300, 10);
+}
+for (i = 0; i < ctx.width * 1; i = i + 10) {
+	var obstacle = new Obstacle(1 + i, 60, 10);
+}
+
+for (i = 0; i < ctx.width * 0.5; i = i + 10) {
+	var obstacle = new Obstacle(100 + i, 400, 10);
+}
+
+function animate() {
+
+	c.clearRect(0, 0, ctx.width, ctx.height);
+
+	//draw rockets with population class later on
+	target.targetDraw();
+	for (o of obstacles) {
+		o.obstacleDraw();
+	}
+
+	window.requestAnimationFrame(animate);
+}
+
+window.requestAnimationFrame(animate);
+	</code>
+</pre>
+
+
+<p>Whew, that was a lot of setup. Of course, the setup can vary depending on your personal tastes, but that was an example of what you can do. Btw if you really don't understand my code, uh, you should learn some javascript first. Dw if there are some undefined functions, we will add those in slowly later on.</p>
+
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "population">Population</h2>
+
+		<p>Now it's time to add our population class. As the name implies, the population class is basically a collection of all the rockets with different traits. What we want to do is create a new population every once in a while by mating the old population. We set a maximum lifespan of the population, which corresponds to the maximum lifespan of all the rockets.</p>
+
+		<pre>
+			<code class = "language-javascript">
+class Population {
+	constructor() {
+		this.rockets = rockets;
+		this.size = 1000;
+		this.populationcount = 0;
+		this.matingpool = [];
+		for (let i = 0; i < this.size; i++) {
+			generateRocket(pos.x, pos.y, 0, 0, 0, 0);
+		}
+	}
+
+	evaluate() {
+		//nice
+	}
+
+	selection() {
+		//woah
+
+	}
+
+	run() {
+		for (let r of this.rockets) {
+			r.updatePosition();
+			r.drawPosition();
+		}
+	}
+
+}
+	</code>
+		</pre>
+		<p>Each population automatically produces more rocket offsprings from the parents. Some of the functions are left out and will be revisited later. To initialize the population:</p>
+
+		<pre>
+			<code class= "language-javascript">
+var population = new Population();
+			</code>
+		</pre>
+		<p>We also need to add a few more lines of code to run the population inside the animate function.</p>
+		<pre>
+			<code class= "language-javascript">
+function animate() {
+
+	c.clearRect(0, 0, ctx.width, ctx.height);
+
+	population.run();
+	population.populationcount++;
+	if (population.populationcount >= lifespan) {
+		population.evaluate();
+		population.selection();
+		population.populationcount = 0;
+	}
+
+	window.requestAnimationFrame(animate);
+}
+
+window.requestAnimationFrame(animate);
+
+			</code>
+		</pre>		
+		<p>Aight, cool cool. We have now basically set up a population that is capable of holding all of our rockets. Time to move onto the next part!</p>
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "picking">Picking, Choosing, Selecting</h2>
+
+			<p>Natural selection wouldn't be called natural selection if the selection part is missing. So what are we selecting and how are we selecting it? Now, do you remember when I talked about "fitness"? Because now is the time to think about how we are going to measure fitness. We can come up with any way we can to measure how successful a rocket is. But fundamentally, what we want is for the rocket to reach the target. Therefore, we can somehow make a function that increases fitness as it gets closer to the target. Now we need to be more specific about closeness: is it the maximum closeness during its lifetime, or is it the final closeness. I can't decide, so I added both. What should the fitness-distance relationship be? Linear, inverse, or inverse squared? I made it inverse squared. What happens if the rocket collides? Ah yes, time to subtract fitness points. after all of that, we arrive at our final fitness function: (everything goes inside the rocket class)</p>
+			<pre>
+				<code class = "language-javascript">
+calculateCloseness() {
+	var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+	if (distance < this.closeness) {
+		this.closeness = distance;
+	}
+}
+calcFitness() {
+	var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+	this.fitness = 1 / this.closeness + 1 / distance;
+	if (this.completed) {
+		this.fitness *= 2;
+	}
+}					
+				</code>
+			</pre>
+
+			<p>Now that we have a fitness function for each of our rockets, we need to add a function inside the population to calculate the fitnesses and choose the best ones. So what do we do? Firstly, we would need an evaluation function to calculate the respective fitnesses of every rocket and then map it to the largest and smallest value. The rocket with the highest fitness should have the highest chance of mating. To add this effect we simply just duplicate and add more of the rocket into the mating pool. The more duplicates a certain rocket has in the mating pool, the higher they will get chosen randomly. I assigned an arbitrary value of fitness * 100.</p>
+
+			<pre>
+				<code class= "language-javascript">
+evaluate() {
+	var maxfit = 0;
+
+	for (let rocket of rockets) {
+		rocket.calcFitness();
+		if (rocket.fitness > maxfit) {
+			maxfit = rocket.fitness;
+		}
+	}
+	for (let rocket of rockets) {
+		rocket.fitness /= maxfit;
+	}
+	this.matingpool = [];
+	for (let rocket of rockets) {
+		var n = rocket.fitness * 100;
+		for (var j = 0; j < n; j++) {
+			this.matingpool.push(rocket);
+		}
+	}
+}					
+				</code>
+			</pre>
+			<p> Ok, now that we have our weighted mating pool created, we need to add one more function inside the population class to select 2 rockets at random to mate and produce offspring. I will talk about the whole mating process in detail later, but for now, let's keep it simple. </p>
+
+			<pre>
+				<code class = "language-javascript">
+selection() {
+	var newpopulation = [];
+	for (var i = 0; i < this.size; i++) {
+
+		var parent1 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
+		var parent2 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
+
+		var child = parent1.crossover(parent2);
+		child.mutation();
+		pos = new Vector2D(ctx.width / 2, ctx.height - 2);
+		vel = new Vector2D(0, 0);
+		a = new Vector2D(0, 0);
+		var newrocket = new Rocket(pos, vel, a, child);
+		newpopulation.push(newrocket);
+		}
+	this.rockets = newpopulation;
+
+}					
+				</code>
+			</pre>
+			<p>The main point which I will go over later is the crossover function. I don't know if you noticed, but I didn't exactly add a condition so that rocket wouldn't mate with a clone of itself. That is just slightly concerning, for obvious reasons. Notice how each child is added to a new population, which then overwrites the old population. The evaluations and the new population is executed when the lifespan of the population exceeds the limit. I guess you can say the old population also gets executed, literally. These functions are called in animate().</p>
+			<pre>
+				<code class = "language-javascript">
+if (population.populationcount >= lifespan) {
+	population.evaluate();
+	population.selection();
+	population.populationcount = 0;
+}					
+				</code>
+			</pre>
+
+		<p>WOW, that's some great progress. We've now figured out the population and fitness, now let's see how reproduction works and what exactly is being reproduced?</p>
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "genetics">Genetics and Reproduction</h2>
+			<p>Woah, it's finally time for genetics and reproduction. Now it's time to look at some high school biology, and attempt to link it with unnatural, artificial, computer code. So recall that our goal is to reach the target. Since we are doing a stupid brute force method, each rocket must contain some amount of data that can let it reach the end. I know this is really stupid but hear me out, we are going to have a collection of all the force vectors of every frame of the rocket's life. The collection of forces will dictate how the rockets move for their entire life. And the most successful rockets will have the most successful set of force vectors that can bring it to the target. You can think of this as a weird path-finding algorithm that is absolutely horrible and extremely inefficient. The force vector at each moment of the rocket's life is known as a feature vector, and later on, I will investigate how changing the feature vector improves the overall algorithm. For now, let's just get the genetics set up. The set of force vectors for each rocket will be its unique DNA. All we need is a new DNA class.</p>
+			<pre>
+				<code class = "language-javascript">
+class DNA {
+	constructor(genes) {
+		if (genes) {
+			this.genes = genes;
+		} else {
+			this.genes = [];
+			for (let i = 0; i < lifespan; i++) {
+				this.genes[i] = new Vector2D(randomNumber(0.01), randomNumber(0.01));
+			}
+		}
+
+	}
+}
+				</code>
+			</pre>
+			<p>Ima now brings your attention back to the top of the rocket class constructor. So if there isn't existing DNA, a random string of DNA will be generated, with a length equivalent to the lifetime of the rocket.</p>
+<pre>
+	<code class = "language-javascript">
+constructor(position, velocity, acceleration, dna = new DNA()) {
+	this.position = position;
+	this.velocity = velocity;
+	this.acceleration = acceleration;
+	this.dna = dna;
+	this.completed = false;
+	this.crash = false;
+	this.count = 0;
+	rockets.push(this);
+	this.isrun = true;
+	this.fitness = 0;
+	this.closeness = Infinity;
+}					
+	</code>
+</pre>
+			<h4 id = "reproduction">Reproduction</h4>
+	<p>Cool, it looks like we got the basic outline of the genetics down. Moving on to the reproduction part. Firstly, what happens to DNA when reproduction happens? you kinda just get half of the ur DNA from ur dad and half from ur mom? WhAAAAAaaAAT? YeeEsss, that means we need a method to mix DNA from 2 parents to create new child DNA. We can achieve this by randomly picking a pivot point in the DNA and mixing the parental DNA according to the pivot point. Is the pivot point necessary when you can just randomly mix you ask? Yes, it is, trust me, I've tried a random DNA mixing and it literally died. Now we call the action of mixing genes between 2 parents a crossover. So let's add the function inside the DNA class.</p>
+	<pre>
+		<code class = "language-javascript">
+crossover(partner) {
+	var newgenes = [];
+	var mid = Math.floor(Math.random() * this.genes.length);
+	for (let i = 0; i < this.genes.length; i++) {
+		if (i < mid) {
+			newgenes[i] = this.genes[i];
+		}
+		else {
+			newgenes[i] = partner.genes[i];
+		}
+
+	}		
+
+	return new DNA(newgenes);
+
+	/*
+	this is the random mixing i was talking about
+	var newgenes = [];
+	for (let i = 0; i < this.genes.length; i++) {
+		var pick = Math.random() < 0.5 ? true : false;
+		if (pick) {
+			newgenes[i] = this.genes[i];
+		}
+		else {
+			newgenes[i] = partner.genes[i];
+		}
+	}
+	*/
+}			
+		</code>
+	</pre>
+	<p>Now the genetic process of reproduction is outlined, let me just remind you again when the reproduction actually happens. You remember in "Picking, Choosing, Selecting" there was this weird selection function? Ah, that weird crossover function makes sense now. I made it so that reproduction is contained in the selection step, and the two chosen ones immediately create offspring and die. </p>
+		</div>
+		<div class = "textblock">
+			<h2 id = "mutation">Mutation</h2>
+			<p>When we talked about reproduction, everything was only constrained to the existing genes that existed in the gene pool. But what if the entire population is kinda stupid and they all don't work? This means that a population could come to an evolutionary roadblock, and it just doesn't get any better. Remember how I said variation is one of the fundamental requirements of natural selection? We need to ensure variation can always exist, so the best way to do this is to add some random mutations. I'm sure most of you have heard of mutations, probably from all those sci-fi movies and how they talk about mutations and superpowers. Sadly it turns out that mutations are a double-edged sword. Although it can introduce new variation into a gene pool, the induced variation does not necessarily need to be good. There are cases when a random mutation makes the population behave worse. But on the other hand, there are cases when the mutations provide just enough push to get the whole evolution process going again. Similar to mutations, Interactive selection can also help out the evolution process. I will go over this in detail later. <br>
+			With code, we can represent a random mutation by just randomly picking a rocket and giving it a totally random DNA sequence. Since this is a genetic process, we will add the mutation function under the DNA class.</p>
+			<pre>
+				<code class = "language-javascript">
+	mutation() {
+		for (let i = 0; i < this.genes.length; i++) {
+			if (Math.random() < 0.01) {
+				this.genes[i] = new Vector2D(randomNumber(0.01), randomNumber(0.01));
+			}
+		}
+	}
+				</code>
+			</pre>
+			<p>The mutation function is called in the selection function along with the reproductive processes.</p>
+
+			<pre class = "linkable-line-numbers" data-line = "9">
+				<code class = "language-javascript">
+	selection() {
+		var newpopulation = [];
+		for (var i = 0; i < this.size; i++) {
+
+			var parent1 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
+			var parent2 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
+
+			var child = parent1.crossover(parent2);
+			child.mutation();
+			pos = new Vector2D(ctx.width / 2, ctx.height - 2);
+			vel = new Vector2D(0, 0);
+			a = new Vector2D(0, 0);
+			var newrocket = new Rocket(pos, vel, a, child);
+			newpopulation.push(newrocket);
+		}
+		this.rockets = newpopulation;
+
+	}					
+				</code>
+			</pre>
+			<p>Epiccc, almost done. We have all the components, and we just need to combine everything. HMmMm, after all of those steps you probably don't remember much. Let me summarize everything!</p>
+		</div>
+		<div class = "textblock">
+			<h2 id = "combine">Combining and summary</h2>
+			<p>We are now at the very end (kind of not really)! Congrats tho, you somehow made it through thousands of words haphazardly pieced together to form a broken and convoluted tapestry of paragraphs. I guess I'm feeling nice, so to help you understand the whole process, I will outline everything, in short, to remind you of what you have learned (hopefully) so far.</p>
+			<ol>
+				<li>Created a bunch of rockets with their own "DNA"<br>
+					<ul>
+						<li>setup with position, velocity, acceleration, dna, life.</li>
+						<li>collision functions with target and obstacle</li>
+						<li>fitness function</li>
+						<li>update and draw function</li>
+					</ul>
+				</li>
+				<li>Put all the rockets into a population<br>
+					<ul>
+						<li>the collection of all the rockets</li>
+						<li>he population is entirely updated when life runs out</li>
+						<li>at the end of population's life, gotta commit evaluate and select</li>
+						<li>run function to update each rocket inside population</li>
+					</ul>
+				</li>
+				<li>Outlined the selection process
+					<br>
+					<ul>
+						<li>fitness and weighted selection. More fit = high chance of passing on genes</li>
+						<li>Fitness functions and evolution rates</li>
+						<li>mating pools and gene pools</li>
+					</ul>
+				</li>
+				<li>Genetics and reproduction processes<br>
+					<ul>
+						<li>New DNA class</li>
+						<li>force feature vectors as unique "DNA"</li>
+						<li>crossover function and mutation function</li>		
+						<li>Parent selection and Parental gene crossing</li>
+						<li>Pivot point and gene overlap</li>
+						<li>Issue with gene variation and stagnation</li>
+					</ul>
+				</li>
+				<li>Mutations<br>
+					<ul>
+						<li>Attempt to resolve the lack of gene variation and risk of evolutionary stagnation</li>
+						<li>Double-edged sword, it's all luck at this point</li>
+					</ul>
+				</li>
+			</ol>
+			<p>Nice. After we have the main parts, we need to have some setup code to ren everything. Gotta include some cool variables!</p>
+			<pre>
+				<code class = "language-javascript">
+var gravity = new Vector2D(0, 0.001);
+var rockets = [];
+var targets = [];
+var obstacles = [];
+var lifespan = 350;
+var pos = new Vector2D(ctx.width / 2, ctx.height - 2);
+var population = new Population();
+var target = new Target(ctx.width / 2, 150, 20);
+
+for (i = 0; i < ctx.width * 0.7; i = i + 10) {
+	var obstacle = new Obstacle(50 + i, 300, 10);
+}
+for (i = 0; i < ctx.width * 1; i = i + 10) {
+	var obstacle = new Obstacle(1 + i, 60, 10);
+}
+
+for (i = 0; i < ctx.width * 0.5; i = i + 10) {
+	var obstacle = new Obstacle(100 + i, 400, 10);
+}
+
+function animate() {
+	c.clearRect(0, 0, ctx.width, ctx.height);
+
+	target.targetDraw();
+	for (o of obstacles) {
+		o.obstacleDraw();
+	}
+
+	population.run();
+	population.populationcount++;
+	if (population.populationcount >= lifespan) {
+		population.evaluate();
+		population.selection();
+		population.populationcount = 0;
+	}
+
+	window.requestAnimationFrame(animate);
+}
+window.requestAnimationFrame(animate);
+
+				</code>
+			</pre>
+			<p>WooWOoWOoWOOWoWWWW. I'm so impressed. We are finally done with the most basic version. There we go, a simple approach to evolutionary genetic algorithms. What you do with it nest is all up to you. Still, confused? bRuuhHh, I'll attach the final code below or visit my repl <br><br><a class = "demo" href="https://repl.it/@HansonSun/rocket-brute-force-method#script.js">Source code</a> <br>Have some fun and go through my incomprehensible mess of random characters. </p>
+
+			<pre>
+				<code class = "language-javascript">
+var ctx = document.getElementById("test");
+var c = ctx.getContext("2d");
+ctx.width = document.body.clientWidth; 
+ctx.height = document.body.clientHeight; 
+ctx.width = 450;
+
+
+
+class Vector2D {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	add(vect) {
+		return (new Vector2D(this.x + vect.x, this.y + vect.y));
+	}
+
+	sub(vect) {
+		return (new Vector2D(this.x - vect.x, this.y - vect.y));
+	}
+	mult(a) {
+		return (new Vector2D(this.x * a, this.y * a));
+	}
+
+	dot(vect) {
+		return this.x * vect.x + this.y * vect.y;
+	}
+
+	cross(vect) {
+		return this.x * vect.y - this.y * vect.x;
+	}
+
+	mag() {
+		return Math.sqrt((this.x * this.x) + (this.y * this.y));
+	}
+	magsqr() {
+		return (Math.pow(this.x, 2)) + (Math.pow(this.y, 2));
+	}
+
+	normalize() {
+		this.mag = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+		return (new Vector2D((this.x / this.mag), (this.y / this.mag)))
+	}
+
+	findAngle(vect, type = "deg") {
+		this.dot = this.x * vect.x + this.y * vect.y;
+		this.mag1 = ((this.x ** 2) + (this.y ** 2)) ** 0.5;
+		this.mag2 = ((vect.x ** 2) + (vect.y ** 2)) ** 0.5;
+		if (type == "deg") {
+			return Math.acos(this.dot / this.mag1 / this.mag2) * 180 / Math.PI;
+		} else if (type == "rad") {
+			return Math.acos(this.dot / this.mag1 / this.mag2);
+		}
+	}
+}
+
+var key = false;
+window.addEventListener('keydown', function (e) {
+	key = e.keyCode;
+})
+window.addEventListener('keyup', function (e) {
+	key = false;
+})
+
+var startmouse = { x: 0, y: 0 };
+endmouse = { x: 0, y: 0 };
+mouseisdown = false;
+hold = false;
+var currentcirc;
+
+function getMousePos(c, evt) {
+	var rect = c.getBoundingClientRect();
+	return {
+		x: evt.clientX - rect.left,
+		y: evt.clientY - rect.top
+	};
+}
+
+ctx.addEventListener("mousedown", function (evt) {
+	var oldmousePos = getMousePos(ctx, evt);
+	startmouse.x = oldmousePos.x;
+	startmouse.y = oldmousePos.y;
+	mouseisdown = true;
+
+	ok = new Obstacle(startmouse.x, startmouse.y, 10);
+
+}, false);
+
+var gravity = new Vector2D(0, 0.001);
+var rockets = [];
+var targets = [];
+var obstacles = [];
+var lifespan = 350;
+var pos = new Vector2D(ctx.width / 2, ctx.height - 2);
+
+
+class Target {
+	constructor(x, y, radius) {
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		targets.push(this);
+	}
+	targetDraw() {
+		c.beginPath();
+		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+		c.fillStyle = "rgba(50, 255, 90, 0.4)";
+		c.fill();
+		c.stroke();
+	}
+}
+class Obstacle {
+	constructor(x, y, radius) {
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		obstacles.push(this);
+	}
+	obstacleDraw() {
+		c.beginPath();
+
+		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+		c.fillStyle = "rgba(255, 100, 100, 0.9)";
+
+		c.fill();
+
+	}
+
+}
+class Rocket {
+	constructor(position, velocity, acceleration, dna = new DNA()) {
+		this.position = position;
+		this.velocity = velocity;
+		this.acceleration = acceleration;
+		this.dna = dna;
+		this.completed = false;
+		this.crash = false;
+		this.count = 0;
+		rockets.push(this);
+		this.isrun = true;
+		this.fitness = 0;
+		this.closeness = Infinity;
+	}
+	applyForce(x) {
+		this.acceleration = this.acceleration.add(x)
+	}
+	applyAcceleration() {
+		this.velocity = this.velocity.add(this.acceleration);
+	}
+	applyVelocity() {
+		this.position = this.position.add(this.velocity);
+	}
+	applyGravity() {
+		this.acceleration = this.acceleration.add(gravity)
+	}
+	wallCollisions() {
+		if (this.position.x >= ctx.width) {
+			this.position.x = ctx.width;
+			this.velocity.x *= -1;
+
+		} if (this.position.x <= 0) {
+			this.position.x = 0;
+			this.velocity.x *= -1;
+
+		} if (this.position.y >= ctx.height) {
+			this.position.y = ctx.height;
+			this.velocity.y *= -1;
+
+		} if (this.position.y <= 0) {
+			this.position.y = 0;
+			this.velocity.y *= -1;
+		}
+	}
+
+
+	targetCollision() {
+		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		if (distance < target.radius * target.radius) {
+			this.completed = true;
+		}
+	}
+
+	obstacleCollision() {
+		for (o of obstacles) {
+			var distance = ((this.position.x - o.x) ** 2 + (this.position.y - o.y) ** 2);
+			if (distance < o.radius * o.radius) {
+				this.crash = true;
+			}
+		}
+	}
+	updatePosition() {
+		if (this.count >= lifespan) {
+			var index = rockets.indexOf(this);
+			if (index > -1) {
+				rockets.splice(index, 1);
+			}
+			this.isrun = false;
+		}
+		if (this.isrun) {
+			this.obstacleCollision();
+			this.targetCollision();
+			this.calculateCloseness();
+			if (!this.completed && !this.crash) {
+				this.applyForce(this.dna.genes[this.count]);
+				this.applyAcceleration();
+				this.applyGravity();
+				if(this.velocity.mag()>5){this.velocity= (this.velocity.normalize()).mult(5)}
+				this.applyVelocity();
+				this.wallCollisions();
+				this.acceleration.mult(0);
+				this.count++;
+			}
+
+		}
+
+	}
+
+	drawPosition() {
+		//0.244978,  22.36067977 1.5707
+
+		var hyp = 11.180;
+		var angle = 1.5707;
+		var theta = Math.atan2(-this.velocity.x, this.velocity.y) + angle;
+
+		var path = new Path2D();
+		path.moveTo(this.position.x + hyp * Math.cos(theta + 3.6051521), this.position.y + hyp * Math.sin(theta + 3.6051521));
+		path.lineTo(this.position.x + 20 * Math.cos(theta), this.position.y + 20 * Math.sin(theta));
+		path.lineTo(this.position.x + hyp * Math.cos(theta + 2.67785867), this.position.y + hyp * Math.sin(theta + 2.67785867));
+		c.fillStyle = "rgba(255, 255, 255, 0.4)";
+		c.fill(path);
+
+	}
+	calculateCloseness() {
+		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		if (distance < this.closeness) {
+			this.closeness = distance;
+		}
+	}
+	calcFitness() {
+		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		this.fitness = 1 / this.closeness + 1 / distance;
+		if (this.completed) {
+			this.fitness *= 2;
+		}
+	}
+
+}
+
+class DNA {
+	constructor(genes) {
+		if (genes) {
+			this.genes = genes;
+		} else {
+			this.genes = [];
+			for (let i = 0; i < lifespan; i++) {
+				this.genes[i] = new Vector2D(randomNumber(0.01), randomNumber(0.01));
+			}
+		}
+
+	}
+	crossover(partner) {
+		/*
+		var newgenes = [];
+		for (let i = 0; i < this.genes.length; i++) {
+			var pick = Math.random() < 0.5 ? true : false;
+			if (pick) {
+				newgenes[i] = this.genes[i];
+			}
+			else {
+				newgenes[i] = partner.genes[i];
+			}
+		}*/
+
+		var newgenes = [];
+		var mid = Math.floor(Math.random() * this.genes.length);
+		for (let i = 0; i < this.genes.length; i++) {
+			if (i < mid) {
+				newgenes[i] = this.genes[i];
+			}
+			else {
+				newgenes[i] = partner.genes[i];
+			}
+
+		}
+
+		return new DNA(newgenes);
+	}
+
+	mutation() {
+		for (let i = 0; i < this.genes.length; i++) {
+			if (Math.random() < 0.01) {
+				this.genes[i] = new Vector2D(randomNumber(0.01), randomNumber(0.01));
+			}
+		}
+	}
+}
+function randomNumber(size) {
+	let sign = Math.random() < 0.5 ? -1 : 1;
+	return size * sign * Math.random();
+}
+
+function generateRocket(x, y, vx, vy, ax, ay) {
+	pos = new Vector2D(x, y);
+	vel = new Vector2D(vx, vy);
+	a = new Vector2D(ax, ay);
+	r = new Rocket(pos, vel, a)
+}
+
+class Population {
+	constructor() {
+		this.rockets = rockets;
+		this.size = 1000;
+		this.populationcount = 0;
+		this.matingpool = [];
+		for (let i = 0; i < this.size; i++) {
+			generateRocket(pos.x, pos.y, 0, 0, 0, 0);
+		}
+	}
+
+
+	evaluate() {
+		var maxfit = 0;
+
+		for (let rocket of rockets) {
+			rocket.calcFitness();
+			if (rocket.fitness > maxfit) {
+				maxfit = rocket.fitness;
+			}
+		}
+		for (let rocket of rockets) {
+			rocket.fitness /= maxfit;
+		}
+		this.matingpool = [];
+		for (let rocket of rockets) {
+			var n = rocket.fitness * 100;
+			for (var j = 0; j < n; j++) {
+				this.matingpool.push(rocket);
+			}
+		}
+	}
+
+	selection() {
+		var newpopulation = [];
+		for (var i = 0; i < this.size; i++) {
+
+			var parent1 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
+			var parent2 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
+
+			var child = parent1.crossover(parent2);
+			child.mutation();
+			pos = new Vector2D(ctx.width / 2, ctx.height - 2);
+			vel = new Vector2D(0, 0);
+			a = new Vector2D(0, 0);
+			var newrocket = new Rocket(pos, vel, a, child);
+			newpopulation.push(newrocket);
+		}
+		this.rockets = newpopulation;
+
+	}
+
+	run() {
+		for (let r of this.rockets) {
+			r.updatePosition();
+			r.drawPosition();
+		}
+	}
+
+}
+
+
+
+var population = new Population();
+var target = new Target(ctx.width / 2, 150, 20);
+
+for (i = 0; i < ctx.width * 0.7; i = i + 10) {
+	var obstacle = new Obstacle(50 + i, 300, 10);
+}
+for (i = 0; i < ctx.width * 1; i = i + 10) {
+	var obstacle = new Obstacle(1 + i, 60, 10);
+}
+
+for (i = 0; i < ctx.width * 0.5; i = i + 10) {
+	var obstacle = new Obstacle(100 + i, 400, 10);
+}
+
+
+function animate() {
+
+	c.clearRect(0, 0, ctx.width, ctx.height);
+
+	target.targetDraw();
+	for (o of obstacles) {
+		o.obstacleDraw();
+	}
+
+	population.run();
+	population.populationcount++;
+	if (population.populationcount >= lifespan) {
+		population.evaluate();
+		population.selection();
+		population.populationcount = 0;
+	}
+
+	window.requestAnimationFrame(animate);
+}
+window.requestAnimationFrame(animate);
+
+
+				</code>
+			</pre>
+				<p>If you look through my code, you will find that I added a function that enables the user to add obstacles. This really isn't necessary (or is it?) But I just thought it was cool.</p>
+				<a class = "demo" href="https://rocket-brute-force-method.hansonsun.repl.co/">Final Product</a>
+
+			
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "further">Gosh Darn, that was a lot of coding. Now its time to look at some extensions</h2>
+			<ol>
+			<li>Different Fitness Formulas</li>
+			<li>Improved version with Different Feature Vectors</li>
+			<li>Role of Interactive Selection</li>
+			</ol>			
+			<p>Tbh, this is actually the fun part. Here, you will actually get to interact with various demos, unbelievable right? So have fun exploring the nuances and optimizations of evolutionary genetic networks. </p>
+		</div>
+
+		<div class = "textblock">
+			<h2 id = "whatisfitness">What is fitness?</h2>
+			<p> What a fundamental question, not only in programming but also in society. How do we perceive fitness? Money, strength, intelligence? Well is great for me to report that I don't have any of those! ahahhahah. . .. .... . Anyways, a good definition of fitness can accurately demonstrate the wellbeing and survival rate of that subject. For example, with money, we kinda need that to survive in modern society. So money is perhaps a good indication of fitness. On the other hand, going back a few ten thousand years back to the god ol' cavemen era. Money isn't gonna do you much good; instead, physical strength could lead to better hunts and better survival rates. Therefore, it makes more sense to say that physical strength is a better indication of fitness. What does this tell us? Fitness functions are different depending on the context, and finding an accurate one is extremely crucial. To explain, imagine using money as a fitness measurement for cavemen? Bruh, I got a bunch of paper hahaha, I can totally survive when a bunch of scary animals be attacking me! As you can see, if the wrong fitness function is chosen, your pretty much toast. This is kinda weird and difficult to quantify. How do we pick an efficient fitness function? That's a good question, and I don't know. Uhh, so what should I do?  I guess I can make a demo comparing multiple fitness functions and see how they work against each other.</p>
+			<p>
+				<img src="fitness.png" alt="">
+			</p>
+			<p>So here is the fitness function that you can kind of mix and match together. The code for this was pretty simple. I just made some minor adjustments to the fitness function in the rocket class. First, we actually need to set up some variables.</p>
+			<pre>
+				<code class = "language-javascript">
+var closeness = document.getElementById("closeness").value;
+var fitnesstype = document.getElementById("fitnesstype").value;
+var sucessbonus = document.getElementById("sucessbonus").value;
+var collidepenalty = document.getElementById("collidepenalty").value;
+var bonus = document.getElementById("bonus").value;
+var penalty = document.getElementById("penalty").value;
+var scale = document.getElementById("scale").value;
+
+var generationcount = 0;
+var sucessnumber = 0;
+
+function updatefunction() {
+	closeness = document.getElementById("closeness").value;
+	fitnesstype = document.getElementById("fitnesstype").value;
+	sucessbonus = document.getElementById("sucessbonus").value;
+	collidepenalty = document.getElementById("collidepenalty").value;
+	bonus = document.getElementById("bonus").value;
+	penalty = document.getElementById("penalty").value;
+	scale = document.getElementById("scale").value;
+	population.populationcount = Infinity;
+	rockets = [];
+	population = new Population();
+	generationcount = 0;
+}					
+				</code>
+			</pre>
+			<p>The update function is called when the update button is clicked, and it changes all of the fitness values. The actual fitness function just has a few more if statements to deal with the options.</p>
+			<pre>
+				<code class = "language-javascript">
+	calcFitness() {
+		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		var closenessbool = 1;
+		if (closeness == false) {
+			closenessbool = 0;
+		}
+		if (fitnesstype == "inverse") {
+			this.fitness = closenessbool* 1 / this.closeness + 1 / distance;
+		} else if (fitnesstype == "inversesqr") {
+			this.fitness = closenessbool*1 / this.closeness ** 2 + 1 / distance ** 2;
+		} else if (fitnesstype == "linear") {
+			this.fitness = -closenessbool*this.closeness - distance;
+		} else if (fitnesstype == "inversecube") {
+			this.fitness = closenessbool*1 / this.closeness ** 3 + 1 / distance ** 3;
+		} else if (fitnesstype == "log") {
+			this.fitness = -closenessbool*Math.log(this.closeness) / Math.log(1000) - Math.log(distance) / Math.log(1000);
+
+		}
+		if (sucessbonus == true) {
+			if (this.completed) {
+				this.fitness *= bonus;
+			}
+		}
+		if (collidepenalty == true) {
+			if (this.crash) {
+				this.fitness *= penalty;
+			}
+		}
+	}
+				</code>
+			</pre>
+			<p>It's important to notice that the fitness value can differ by a huge amount depending on the function type because of the math it uses. For example, 1/10^3 is significantly smaller than 1/10^2. This distinction doesn't really matter because all the fitness values are mapped to the highest and lowest values. So for each generation, the final maximum mapped fitness value will always be 1*100. In fact, I had to modify my evaluate function in the population class to deal with negative values from linear and log type fitness functions.</p>
+			<pre>
+				<code class = "language-javascript">
+	evaluate() {
+		var maxfit = -Infinity;
+		var minfit = Infinity;
+
+		var fittestrocket = 0;
+
+		for (let rocket of rockets) {
+			rocket.calcFitness();
+			if (rocket.fitness > maxfit) {
+				maxfit = rocket.fitness;
+				fittestrocket = rocket;
+			} if (rocket.fitness < minfit) {
+				minfit = rocket.fitness;
+			}
+		}
+
+		for (let rocket of rockets) {
+			rocket.fitness -= minfit;
+
+		}
+		maxfit = maxfit - minfit;
+		generationcount++;
+
+
+		for (let rocket of rockets) {
+			rocket.fitness /= maxfit;
+		}
+		sucessnumber = 0;
+
+		stats.innerHTML = "";
+		stats.innerHTML += "Generation " + generationcount + "<br>"
+		stats.innerHTML += "Maximum Fitness (scaled): " + maxfit * scale + "<br>";
+		stats.innerHTML += "Minimum Fitness (scaled): " + minfit * scale + "<br>";
+		stats.innerHTML += "Closest Distance Reached: " + (fittestrocket.closeness) + "<br>";
+
+		this.matingpool = [];
+		for (let rocket of rockets) {
+			var n = rocket.fitness * scale;
+			for (var j = 0; j < n; j++) {
+				this.matingpool.push(rocket);
+			}
+		}
+	}					
+				</code>
+			</pre>
+			<p>Now you can take a look at differnt fitness function and see how they work! <br><br>
+			<a class = "demo" href="https://rocket-fitness-function-comparison.hansonsun.repl.co/">Test Fitness!</a>
+			</p>
+		</div>
+		<div class = "textblock">
+			<h2 id = "featurevectors">Feature Vectors?</h2>
+			<p>We now know what to do with our fitness function, but is there an even better way to optimize the algorithm? There sure is! You remember when I said the DNA is just a collection of the force vectors in each frame, and this method was pretty stupid? In fact, this method is so stupid it basically just brute forces everything. Those collections of forces are called feature vectors; they represent some data about the object, kinda like biological DNA. It turns out that some types of DNA are better than others, and picking the best type of feature vector can also improve evolution rates and overall success. Now it's time to look at a better and improved version with the steering algorithm and weights. </p>
+			<p> So what do the steering algorithms be about, you ask? It's basically just a type of algorithm that literally describes how an object should move such that it arrives at the target. The details about this algorithm are kinda not evolution, nor genetic, so it will be glossed over briefly. Essentially, it just looks at your current position and the target's current position. Then based on the distance to the target and the direction, it creates a new force vector that pulls the object towards the target. If you want to think about this mathematically, let p1 be the position vector of the object and p2 the position vector of the target. The difference will be p1 - p2 and u can imagine the "force" vector to kinda be like some value n, for n*(p1-p2). Of course, everything is more nuanced, but it's late at night, and I'm tired. Once again currently thinking about my life decisions and choices by coding everything writing this in 3 days.</p>
+			<p><a href="https://www.askforgametask.com/tutorial/steering-behaviors-seek/"><img src="steer.png" alt=""></a></p>
+			<P>Nice, let's take a look at what the code would look like then. We would need to add a steer function inside the rocket class. Ok, that's kinda clear (jk, who am I kidding, my code is clear? pffff) But what's all that DNA stuff you got at the bottom? Dw we gonna revisit that later when we talk about weights.</P>
+			<pre>
+				<code class ="language-javascript">
+	seek() {
+
+		this.closestx = Infinity;
+		this.closesty = Infinity;
+		var works = false;	
+
+		var targetpos = new Vector2D(target.x, target.y)
+		this.desiredvelocity = this.position.sub(targetpos);
+		this.error = this.velocity.sub(this.desiredvelocity);
+		this.error = this.error.normalize();
+		this.acceleration = (this.error.normalize()).mult(this.dna.genes[0]);
+
+		for (o of obstacles) {
+			let dx = o.x - this.position.x;
+			let dy = o.y - this.position.y;
+
+			if (dy * dy + dx * dx <= 500 * 500 * this.dna.genes[3]) {
+				if (Math.abs(dx) < Math.abs(this.closestx)) {
+					this.closestx = o.x;
+				} if (Math.abs(dy) < Math.abs(this.closesty)) {
+					this.closesty = o.y;
+				}
+				works = true;
+			}
+
+		}
+		if (works) {
+			var closestObstaclePos = new Vector2D(this.closestx, this.closesty);
+			this.desiredvelocity = this.position.sub(closestObstaclePos);
+			this.desiredvelocity.x = 500 * 500 * this.dna.genes[3] / this.desiredvelocity.x / this.desiredvelocity.x * this.dna.genes[5];
+			this.desiredvelocity.y = 500 * 500 * this.dna.genes[3] / this.desiredvelocity.y / this.desiredvelocity.y * this.dna.genes[2];
+			this.desiredvelocity = this.desiredvelocity.normalize();
+			this.error = (this.velocity.normalize()).sub(this.desiredvelocity);
+			this.error = (this.error.normalize()).mult(this.dna.genes[1]);
+			this.acceleration = this.acceleration.add(this.error);
+		}
+	}
+				</code>
+			</pre>
+			<p> Now that we have the steering algorithm completed, we need to make some changes to the DNA class so it works with the new feature vectors. But before we do that, we first need to understand the concepts of weights. In school, when your teacher calculated your marks, test quizzes and assignments are all worth different amounts. Your final marks are then calculated as a weighted average. In other words, weights are the significance of each feature for the data. Features with higher weights mean that that it is worth more and it has a larger impact on the final movement. In our case, the feature vectors are the distance from the target, and the distance to the closest obstacle. To be honest, I can't even tell what my weights do. I know I have a few weights that influence the behaviour around obstacles and targets, and also a weight that scales the error correction vector. Well ok, that's all for the brief overview of the weighted movement process. Next, let's take a look at the modifications to the code that is necessary for the new changes. </p>
+			<pre>
+				<code class = "language-javascript">
+	constructor(genes) {
+		if (genes) {
+			this.genes = genes;
+		} else {
+			this.genes = [];
+			for (let i = 0; i < 6; i++) {
+				this.genes[i] = randomNumber(2);
+			}
+		}
+
+	}					
+				</code>
+			</pre>
+			<p>We just changed the size of the DNA to 6 elements. We technically don't need 6 elements, but it's just there in case you want an ext weight idk? Essentially those are the only changes that are required for a much better version with a seeking algorithm. Here go check it out!</p>
+			<a class = "demo" href="https://rocket-but-better.hansonsun.repl.co">Improved with steering</a>
+		</div>
+		<div class = "textblock">
+			<h2 id = "interaction">Interactive selection</h2>
+			<p>Ah yes, we finally get some user input. If you checked out the demos I made, you may have realized that you can add new obstacles by clicking on the canvas. This is my attempt to include interactive selection into the algorithm. So what is the importance of interactive selection? Interactive selection can help the evolution process when an evolutionary roadblock occurs. When mutations don't provide enough variation to produce a successful generation, you can help push things along and eliminate some redundant rockets. This is not all, by adding an interactive aspect, we expose the rockets to a much larger variety of data so that they can train better. For example, self-driving cars need a ton of data to ensure they drive properly. Sure, if you just test the self-driving car on a straight road, it can get better really quickly, and I'm sure it would have no problems on any straight road it encounters. But what if it's a curvy road? If the weights are trained according to a limited set of data, it can only react to a limited set of situations. The best type of evolutionary genetic algorithm can react to as many random situations as it can. A really good comparison between what is good and what is bad would be between the brute force method and the method with the steering algorithm. The brute force method trains the rocket so that only solves the obstacles it started with. The moment you add a new obstacle, you would need to re-evolve a completely new set of weights to resolve the new situation. On the other hand, the improved method with the steering algorithm doesn't brute force the situation, it determines the rocket's behaviour depending on the obstacles and targets. So when you add a new obstacle for this simulation, it still has a chance to avoid it. So this interactive selection approach only applies to non-brute force algorithms that have an adequate set of feature vectors. Technically the type of interactive selection is described is a pretty loose manipulation of the formal definition, so take what I said with a grain of salt. The feature vector weight optimizations I talked about are actually getting into neural networks, which are different things. Neural networks are much better at adapting and training than the simple steering algorithm I used. Hmm, but what if I combine neural networks and evolutionary genetic algorithms? Ah yes, that already exists, and it's the basis for many types of unsupervised machine learning. The obstacle addition function introduces a wider range of data set, and you can also try to use it to kill off useless rockets. An important thing to note is that the entire thing breaks if you put an obstacle too close to the starting point, so please don't do that. I'll try to show what I mean with a few pictures.
+
+	</p>
+			<p>
+			So we start things off as default<br><img src="intial.png" alt=""></p>
+			<p>Then we block off one side and a lot of the rockets start to ignore the blocked side.<br><img src="blocked.png" alt=""></p>
+			
+		</div>
+		<div class = "textblock">
+			<h2 id = "final"> Final comments and possible improvements</h2>
+			<p>Oh god, I'm finally done. After 4 days of random typing, I don't even know what I made but here it is. Maybe writing all of this without a plan was a bad idea. But hey, it is good enough. I hope at least the demos were kinda fun for you? hopefully? if not just make a better version yourself lmao. Big thank for Daniel Shiffman's books, "The Nature of Code". It was an excellent reference and much more well written than this. Anyways, this was an interesting experience overall and I totally would recommend everyone to try and write sporadically for 4 days straight and see what your results are. For the future, probably will add an ecosystem simulation and might include neural networks to make everything extra fancy. Well that's all, time to dip. <br><br>
+
+bye byeeeee
+<br><br>
+<br><br>
+
+- Hanson Sun</p>
+		</div>
+
+	</div>
+
+	<footer>
+		tbh idk why this is here. but uhhh <br>
+		Made by Hanson Sun, all rights reserved ( actually idc if u steal it, it would probably do more harm than good to you anyways)
+	</footer>
+
+	</div>
+
+	<script src="script.js">
+	
+	</script>
+	<script src="titlebanner.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+	 crossorigin="anonymous">
+	</script>
+<script src="prism2.js"></script>
+<script type="text/javascript">
+// Optional
+Prism.plugins.NormalizeWhitespace.setDefaults({
+	'remove-trailing': true,
+	'remove-indent': true,
+	'left-trim': true,
+	'right-trim': false,
+});
+</script>
+
+</body>
+
+</html>
