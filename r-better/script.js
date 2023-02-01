@@ -16,6 +16,26 @@ var populationsize = document.getElementById("size").value;
 var generationcount = 0;
 var sucessnumber = 0;
 
+var generationList =[0];
+var averageFitList = [0];
+
+var chart = new Chart("chart", {
+	type: "line",
+	data: {
+		labels: generationList,
+		datasets: [{
+		  fill: false,
+		  lineTension: 0.2,
+		  backgroundColor: "rgba(0,0,255,1.0)",
+		  borderColor: "rgba(0,0,255,0.1)",
+		  data: averageFitList
+		}]
+	  },
+	  options: {
+		legend: {display: false}
+	  }
+  });
+
 function updatefunction() {
 	closeness = document.getElementById("closeness").value;
 	fitnesstype = document.getElementById("fitnesstype").value;
@@ -27,7 +47,7 @@ function updatefunction() {
 	populationsize = document.getElementById("size").value;
 	population.populationcount = Infinity;
 	rockets = [];
-	if(populationsize <100){
+	if (populationsize < 100) {
 		populationsize = 100;
 	}
 	population = new Population();
@@ -89,10 +109,10 @@ function getMousePos(c, evt) {
 	var rect = ctx.getBoundingClientRect();
 	console.log(rect)
 	scaleX = ctx.width / rect.width,    // relationship bitmap vs. element for X
-     scaleY = ctx.height / rect.height;  // relationship bitmap vs. element for Y
+		scaleY = ctx.height / rect.height;  // relationship bitmap vs. element for Y
 	return {
-		x: (evt.clientX - rect.left)*scaleX,
-		y: (evt.clientY - rect.top)*scaleY
+		x: (evt.clientX - rect.left) * scaleX,
+		y: (evt.clientY - rect.top) * scaleY
 	};
 }
 
@@ -244,7 +264,7 @@ class Rocket {
 
 		this.closestx = Infinity;
 		this.closesty = Infinity;
-		var works = false;	
+		var works = false;
 
 		var targetpos = new Vector2D(target.x, target.y)
 		this.desiredvelocity = this.position.sub(targetpos);
@@ -291,9 +311,9 @@ class Rocket {
 		path.lineTo(this.position.x + hyp * Math.cos(theta + 2.67785867), this.position.y + hyp * Math.sin(theta + 2.67785867));
 		if (this.crash) {
 			c.fillStyle = "rgba(168, 0, 0, 0.4)";
-		} else if(this.completed) {
+		} else if (this.completed) {
 			c.fillStyle = "rgba(0, 110, 29,0.4)";
-		}else{
+		} else {
 			c.fillStyle = " rgba(0, 0, 0, 0.4)";
 		}
 
@@ -313,15 +333,15 @@ class Rocket {
 			closenessbool = 0;
 		}
 		if (fitnesstype == "inverse") {
-			this.fitness = closenessbool* 1 / this.closeness + 1 / distance;
+			this.fitness = closenessbool * 1 / this.closeness + 1 / distance;
 		} else if (fitnesstype == "inversesqr") {
-			this.fitness = closenessbool*1 / this.closeness ** 2 + 1 / distance ** 2;
+			this.fitness = closenessbool * 1 / this.closeness ** 2 + 1 / distance ** 2;
 		} else if (fitnesstype == "linear") {
-			this.fitness = -closenessbool*this.closeness - distance;
+			this.fitness = -closenessbool * this.closeness - distance;
 		} else if (fitnesstype == "inversecube") {
-			this.fitness = closenessbool*1 / this.closeness ** 3 + 1 / distance ** 3;
+			this.fitness = closenessbool * 1 / this.closeness ** 3 + 1 / distance ** 3;
 		} else if (fitnesstype == "log") {
-			this.fitness = -closenessbool*Math.log(this.closeness) / Math.log(1000) - Math.log(distance) / Math.log(1000);
+			this.fitness = -closenessbool * Math.log(this.closeness) / Math.log(1000) - Math.log(distance) / Math.log(1000);
 
 		}
 		if (sucessbonus == true) {
@@ -413,10 +433,10 @@ class Population {
 	evaluate() {
 		var maxfit = -Infinity;
 		var minfit = Infinity;
-
+		let averageFit = 0;
 		var fittestrocket = 0;
 
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.calcFitness();
 			if (rocket.fitness > maxfit) {
 				maxfit = rocket.fitness;
@@ -426,27 +446,41 @@ class Population {
 			}
 		}
 
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.fitness -= minfit;
-
 		}
+
 		maxfit = maxfit - minfit;
 		generationcount++;
 
-
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.fitness /= maxfit;
 		}
+
+		for (let rocket of this.rockets) {
+			if (!isNaN(rocket.fitness)) {
+				averageFit += rocket.fitness;
+			}
+		}
+
 		sucessnumber = 0;
 
 		stats.innerHTML = "";
 		stats.innerHTML += "Generation " + generationcount + "<br>"
-		stats.innerHTML += "Maximum Fitness (scaled): " + maxfit * scale + "<br>";
-		stats.innerHTML += "Minimum Fitness (scaled): " + minfit * scale + "<br>";
-		stats.innerHTML += "Closest Distance Reached: " + (fittestrocket.closeness)**0.5 + "<br>";
+		stats.innerHTML += "Maximum Fitness (raw): " + maxfit * scale + "<br>";
+		stats.innerHTML += "Minimum Fitness (raw): " + minfit * scale + "<br>";
+		stats.innerHTML += "Average Fitness (scaled): " + averageFit + "<br>";
+		stats.innerHTML += "Closest Distance Reached: " + (fittestrocket.closeness) ** 0.5 + "<br>";
+
+		generationList.push(generationcount)
+		averageFitList.push(averageFit);
+
+		chart.update();
+
+		averageFit = 0;
 
 		this.matingpool = [];
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			var n = rocket.fitness * scale;
 			for (var j = 0; j < n; j++) {
 				this.matingpool.push(rocket);
@@ -501,8 +535,9 @@ for (i = 0; i < ctx.width * 0.5; i = i + 10) {
 }
 
 function animate() {
+	rockets = [];
 	c.clearRect(0, 0, ctx.width, ctx.height);
-	
+
 	target.targetDraw();
 	for (o of obstacles) {
 		o.obstacleDraw();
