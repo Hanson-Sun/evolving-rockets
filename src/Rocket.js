@@ -146,4 +146,9 @@ class Rocket {
 		}
 	}
 
+	static randomNumber(size) {
+		let sign = Math.random() < 0.5 ? -1 : 1;
+		return size * sign * Math.random();
+	}
+	
 }

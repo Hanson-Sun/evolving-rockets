@@ -5,11 +5,11 @@ class DNA {
 		} else {
 			this.genes = [];
 			for (let i = 0; i < 6; i++) {
-				this.genes[i] = randomNumber(2);
+				this.genes[i] = Rocket.randomNumber(2);
 			}
 		}
-
 	}
+    
     mixedCrossover(partner) {
 		var newgenes = [];
 		for (let i = 0; i < this.genes.length; i++) {
@@ -23,6 +23,7 @@ class DNA {
 		}
 		return new DNA(newgenes);
     }
+
 	crossover(partner) {
 		var newgenes = [];
 		var mid = Math.floor(Math.random() * this.genes.length);
@@ -35,14 +36,13 @@ class DNA {
 			}
 
 		}
-
 		return new DNA(newgenes);
 	}
 
 	mutation() {
 		for (let i = 0; i < this.genes.length; i++) {
 			if (Math.random() < 0.02) {
-				this.genes[i] = randomNumber(1);
+				this.genes[i] = Rocket.randomNumber(1);
 			}
 		}
 	}
