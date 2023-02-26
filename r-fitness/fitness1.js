@@ -370,10 +370,10 @@ class Population {
 	evaluate() {
 		var maxfit = -Infinity;
 		var minfit = Infinity;
-
+		let averageFit = 0;
 		var fittestrocket = 0;
 
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.calcFitness();
 			if (rocket.fitness > maxfit) {
 				maxfit = rocket.fitness;
@@ -383,27 +383,35 @@ class Population {
 			}
 		}
 
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.fitness -= minfit;
-
 		}
+
 		maxfit = maxfit - minfit;
 		generationcount++;
 
-
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.fitness /= maxfit;
 		}
+
+		for (let rocket of this.rockets) {
+			if (!isNaN(rocket.fitness)) {
+				averageFit += rocket.fitness;
+			}
+		}
+
 		sucessnumber = 0;
 
 		stats.innerHTML = "";
 		stats.innerHTML += "Generation " + generationcount + "<br>"
-		stats.innerHTML += "Maximum Fitness (scaled): " + maxfit * scale + "<br>";
-		stats.innerHTML += "Minimum Fitness (scaled): " + minfit * scale + "<br>";
-		stats.innerHTML += "Closest Distance Reached: " + (fittestrocket.closeness**0.5) + "<br>";
+		stats.innerHTML += "Maximum Fitness (raw): " + maxfit * scale + "<br>";
+		stats.innerHTML += "Minimum Fitness (raw): " + minfit * scale + "<br>";
+		stats.innerHTML += "Average Fitness (scaled): " + averageFit + "<br>";
+		stats.innerHTML += "Closest Distance Reached: " + (fittestrocket.closeness) ** 0.5 + "<br>";
+		averageFit = 0;
 
 		this.matingpool = [];
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			var n = rocket.fitness * scale;
 			for (var j = 0; j < n; j++) {
 				this.matingpool.push(rocket);

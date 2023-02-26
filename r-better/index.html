@@ -11,17 +11,20 @@
 </head>
 
 <body>
-	<canvas id="test"></canvas><br>
-	  	<div id = "data">
-		<div id = "stats"></div>
+	<canvas id="test" ></canvas><br>
+	<div id="data">
+		<div>
+			<canvas id="chart"></canvas>
+			<div id="stats"></div>
+		</div>
 		<table>
 			<tr>
 				<td><label for="closeness">Use closest distance reached</label>
 					<input type="checkbox" name="closeness" id="closeness" checked>
 				</td>
-				<td>	
+				<td>
 					<label for="scale">Final Fitness Scale</label>
-					<input type="number" name="scale" id="scale" value = "100">
+					<input type="number" name="scale" id="scale" value="100">
 				</td>
 			</tr>
 			<tr>
@@ -30,25 +33,25 @@
 					<input type="checkbox" name="sucessbonus" id="sucessbonus" checked>
 				</td>
 				<td>
-						<label for="bonus">Sucess Bonus Factor</label>
-						<input type="number" name="bonus" id="bonus" value = "2">
+					<label for="bonus">Sucess Bonus Factor</label>
+					<input type="number" name="bonus" id="bonus" value="2">
 				</td>
 
 			</tr>
 			<tr>
 				<td>
 					<label for="collidepenalty">Obstacle collision penalty</label>
-					<input type="checkbox" name="collidepenalty" id="collidepenalty">			
-				</td>			
-				<td>	
+					<input type="checkbox" name="collidepenalty" id="collidepenalty" checked>
+				</td>
+				<td>
 					<label for="penalty">Collision Penalty Factor</label>
-					<input type="number" name="penalty" id="penalty"  value = "0.5">
-				</td>			
+					<input type="number" name="penalty" id="penalty" value="0.5">
+				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="fitnesstype">Choose a fitness type</label>
-					<select name="fitnesstype" id="fitnesstype" value = "inverse">
+					<select name="fitnesstype" id="fitnesstype" value="inverse">
 						<option value="inverse">Inverse</option>
 						<option value="inversesqr">Inverse Square</option>
 						<option value="inversecube">Inverse Cube</option>
@@ -58,7 +61,7 @@
 				</td>
 				<td>
 					<label for="size">Population Size (use values over 100)</label>
-					<input type="number" name="size" id="size"  value = "500" min = "2">
+					<input type="number" name="size" id="size" value="500" min="2">
 				</td>
 			</tr>
 		</table>
@@ -69,6 +72,7 @@
 	<script src="../Obstacle.js"></script>
 	<script src="../Target.js"></script>
 	<script src="../Rocket.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

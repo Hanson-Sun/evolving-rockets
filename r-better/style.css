@@ -2,16 +2,11 @@
 	margin:0;
 	padding:0;
 }
-canvas{
-
-	height:99vh;
+#test{
+	height:100vh;
 	padding:0;
 	margin:0;
 	background:rgb(200,200,200);
-	display:flex;
-}
-body{
-	background-color: rgb(230,230,245);
 }
 body{
 	background-color: rgb(230,230,245);
@@ -34,6 +29,15 @@ th,td{
 	margin-top:auto;
 	margin-bottom:auto;
 	margin-left:2rem;
+	width: 50%;
+}
+
+#chart {
+	width: 70% !important;
+	height: auto !important;
+	padding: 10px;
+	margin:auto;
+
 }
 button{
 	margin:auto;
