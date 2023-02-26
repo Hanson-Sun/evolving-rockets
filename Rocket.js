@@ -109,6 +109,7 @@ class Rocket {
 		c.fill(path);
 	}
 
+
 	calculateCloseness() {
 		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
 		if (distance < this.closeness) {
