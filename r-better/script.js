@@ -1,3 +1,5 @@
+
+
 var ctx = document.getElementById("test");
 var c = ctx.getContext("2d");
 ctx.width = document.body.clientWidth; //document.width is obsolete
@@ -35,54 +37,6 @@ function updatefunction() {
 	stats.innerHTML = "";
 }
 
-class Vector2D {
-	constructor(x, y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	add(vect) {
-		return (new Vector2D(this.x + vect.x, this.y + vect.y));
-	}
-
-	sub(vect) {
-		return (new Vector2D(this.x - vect.x, this.y - vect.y));
-	}
-	mult(a) {
-		return (new Vector2D(this.x * a, this.y * a));
-	}
-
-	dot(vect) {
-		return this.x * vect.x + this.y * vect.y;
-	}
-
-	cross(vect) {
-		return this.x * vect.y - this.y * vect.x;
-	}
-
-	mag() {
-		return Math.sqrt((this.x * this.x) + (this.y * this.y));
-	}
-	magsqr() {
-		return (Math.pow(this.x, 2)) + (Math.pow(this.y, 2));
-	}
-
-	normalize() {
-		this.mag = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
-		return (new Vector2D((this.x / this.mag), (this.y / this.mag)))
-	}
-
-	findAngle(vect, type = "deg") {
-		this.dot = this.x * vect.x + this.y * vect.y;
-		this.mag1 = ((this.x ** 2) + (this.y ** 2)) ** 0.5;
-		this.mag2 = ((vect.x ** 2) + (vect.y ** 2)) ** 0.5;
-		if (type == "deg") {
-			return Math.acos(this.dot / this.mag1 / this.mag2) * 180 / Math.PI;
-		} else if (type == "rad") {
-			return Math.acos(this.dot / this.mag1 / this.mag2);
-		}
-	}
-}
 
 
 function getMousePos(c, evt) {
@@ -103,11 +57,7 @@ ctx.addEventListener("mousedown", function (evt) {
 }, false);
 
 
-
-
-
 var gravity = new Vector2D(0, 0.3);
-var rockets = [];
 var targets = [];
 var obstacles = [];
 var lifespan = 350;
@@ -115,133 +65,8 @@ var pos = new Vector2D(ctx.width / 2, ctx.height - 2);
 var maxspeed = 4;
 var maxforce = 5;
 
-
-class Target {
-	constructor(x, y, radius) {
-		this.x = x;
-		this.y = y;
-		this.radius = radius;
-		targets.push(this);
-	}
-	targetDraw() {
-		c.beginPath();
-		c.fillStyle = "rgb(11, 227, 69)";
-		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-		c.fill();
-	}
-}
-class Obstacle {
-	constructor(x, y, radius) {
-		this.x = x;
-		this.y = y;
-		this.radius = radius;
-		obstacles.push(this);
-	}
-	obstacleDraw() {
-		c.beginPath();
-		c.fillStyle = "rgb(255,255,255)"
-		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-		c.fill();
-	}
-
-}
-class Rocket {
-	constructor(position, velocity, acceleration, dna = new DNA()) {
-		this.position = position;
-		this.velocity = velocity;
-		this.acceleration = acceleration;
-		this.dna = dna;
-		this.completed = false;
-		this.crash = false;
-		this.count = 0;
-		rockets.push(this);
-		this.isrun = true;
-		this.fitness = 0;
-		this.closeness = Infinity;
-
-		this.error;
-	}
-	applyForce(x) {
-		this.acceleration = this.acceleration.add(x)
-	}
-	applyAcceleration() {
-		this.velocity = this.velocity.add(this.acceleration);
-	}
-	applyVelocity() {
-		this.position = this.position.add(this.velocity);
-	}
-	applyGravity() {
-		this.acceleration = this.acceleration.add(gravity)
-	}
-	wallCollisions() {
-		if (this.position.x >= ctx.width) {
-			this.position.x = ctx.width;
-			this.velocity.x *= -1;
-
-		} if (this.position.x <= 0) {
-			this.position.x = 0;
-			this.velocity.x *= -1;
-
-		} if (this.position.y >= ctx.height) {
-			this.position.y = ctx.height;
-			this.velocity.y *= -1;
-
-		} if (this.position.y <= 0) {
-			this.position.y = 0;
-			this.velocity.y *= -1;
-		}
-	}
-
-
-	targetCollision() {
-		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
-		if (distance < target.radius * target.radius) {
-			this.completed = true;
-		}
-	}
-
-	obstacleCollision() {
-		for (o of obstacles) {
-			var distance = ((this.position.x - o.x) ** 2 + (this.position.y - o.y) ** 2);
-			if (distance < o.radius * o.radius) {
-				this.crash = true;
-			}
-		}
-	}
-	updatePosition() {
-		if (this.count >= lifespan) {
-			var index = rockets.indexOf(this);
-			if (index > -1) {
-				rockets.splice(index, 1);
-			}
-			this.isrun = false;
-		}
-		if (this.isrun) {
-			this.obstacleCollision();
-			this.targetCollision();
-			this.calculateCloseness();
-
-			if (!this.completed && !this.crash) {
-
-				this.seek();
-				this.applyGravity();
-				this.applyAcceleration();
-
-				if (this.velocity.mag() > maxspeed) {
-					this.velocity = (this.velocity.normalize()).mult(maxspeed)
-				}
-				this.wallCollisions();
-				this.applyVelocity();
-
-				this.acceleration.mult(0);
-				this.count++;
-			}
-
-		}
-
-	}
+class SmartRocket extends Rocket {
 	seek() {
-
 		this.closestx = Infinity;
 		this.closesty = Infinity;
 		var works = false;	
@@ -264,7 +89,6 @@ class Rocket {
 				}
 				works = true;
 			}
-
 		}
 		if (works) {
 			var closestObstaclePos = new Vector2D(this.closestx, this.closesty);
@@ -277,65 +101,6 @@ class Rocket {
 			this.acceleration = this.acceleration.add(this.error);
 		}
 	}
-
-	drawPosition() {
-		//0.244978,  22.36067977 1.5707
-
-		var hyp = 11.180;
-		var angle = 1.5707;
-		var theta = Math.atan2(-this.velocity.x, this.velocity.y) + angle;
-
-		var path = new Path2D();
-		path.moveTo(this.position.x + hyp * Math.cos(theta + 3.6051521), this.position.y + hyp * Math.sin(theta + 3.6051521));
-		path.lineTo(this.position.x + 20 * Math.cos(theta), this.position.y + 20 * Math.sin(theta));
-		path.lineTo(this.position.x + hyp * Math.cos(theta + 2.67785867), this.position.y + hyp * Math.sin(theta + 2.67785867));
-		if (this.crash) {
-			c.fillStyle = "rgba(168, 0, 0, 0.4)";
-		} else if(this.completed) {
-			c.fillStyle = "rgba(0, 110, 29,0.4)";
-		}else{
-			c.fillStyle = " rgba(0, 0, 0, 0.4)";
-		}
-
-		c.fill(path);
-
-	}
-	calculateCloseness() {
-		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
-		if (distance < this.closeness) {
-			this.closeness = distance;
-		}
-	}
-	calcFitness() {
-		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
-		var closenessbool = 1;
-		if (closeness == false) {
-			closenessbool = 0;
-		}
-		if (fitnesstype == "inverse") {
-			this.fitness = closenessbool* 1 / this.closeness + 1 / distance;
-		} else if (fitnesstype == "inversesqr") {
-			this.fitness = closenessbool*1 / this.closeness ** 2 + 1 / distance ** 2;
-		} else if (fitnesstype == "linear") {
-			this.fitness = -closenessbool*this.closeness - distance;
-		} else if (fitnesstype == "inversecube") {
-			this.fitness = closenessbool*1 / this.closeness ** 3 + 1 / distance ** 3;
-		} else if (fitnesstype == "log") {
-			this.fitness = -closenessbool*Math.log(this.closeness) / Math.log(1000) - Math.log(distance) / Math.log(1000);
-
-		}
-		if (sucessbonus == true) {
-			if (this.completed) {
-				this.fitness *= bonus;
-			}
-		}
-		if (collidepenalty == true) {
-			if (this.crash) {
-				this.fitness *= penalty;
-			}
-		}
-	}
-
 }
 
 class DNA {
@@ -395,20 +160,20 @@ function generateRocket(x, y, vx, vy, ax, ay) {
 	pos = new Vector2D(x, y);
 	vel = new Vector2D(vx, vy);
 	a = new Vector2D(ax, ay);
-	r = new Rocket(pos, vel, a)
+	r = new SmartRocket(pos, vel, a);
+	return r;
 }
 
 class Population {
 	constructor() {
-		this.rockets = rockets;
+		this.rockets = [];
 		this.size = populationsize;
 		this.populationcount = 0;
 		this.matingpool = [];
 		for (let i = 0; i < this.size; i++) {
-			generateRocket(pos.x, pos.y, randomNumber(1), 0, 0, 0);
+			this.rockets.push(generateRocket(pos.x, pos.y, randomNumber(1), 0, 0, 0));
 		}
 	}
-
 
 	evaluate() {
 		var maxfit = -Infinity;
@@ -416,8 +181,8 @@ class Population {
 
 		var fittestrocket = 0;
 
-		for (let rocket of rockets) {
-			rocket.calcFitness();
+		for (let rocket of this.rockets) {
+			rocket.calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty);
 			if (rocket.fitness > maxfit) {
 				maxfit = rocket.fitness;
 				fittestrocket = rocket;
@@ -426,7 +191,7 @@ class Population {
 			}
 		}
 
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.fitness -= minfit;
 
 		}
@@ -434,7 +199,7 @@ class Population {
 		generationcount++;
 
 
-		for (let rocket of rockets) {
+		for (let rocket of this.rockets) {
 			rocket.fitness /= maxfit;
 		}
 		sucessnumber = 0;
@@ -446,31 +211,31 @@ class Population {
 		stats.innerHTML += "Closest Distance Reached: " + (fittestrocket.closeness)**0.5 + "<br>";
 
 		this.matingpool = [];
-		for (let rocket of rockets) {
-			var n = rocket.fitness * scale;
+		for (let r of this.rockets) {
+			var n = r.fitness * scale;
 			for (var j = 0; j < n; j++) {
-				this.matingpool.push(rocket);
+				this.matingpool.push(r);
 			}
 		}
+
 	}
 
 	selection() {
 		var newpopulation = [];
+
 		for (var i = 0; i < this.size; i++) {
 			var parent1 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
 			var parent2 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
-
 
 			var child = parent1.crossover(parent2);
 			child.mutation();
 			pos = new Vector2D(ctx.width / 2, ctx.height - 10);
 			vel = new Vector2D(0, 0);
 			a = new Vector2D(0, 0);
-			var newrocket = new Rocket(pos, vel, a, child);
+			var newrocket = new SmartRocket(pos, vel, a, child);
 			newpopulation.push(newrocket);
 		}
 		this.rockets = newpopulation;
-
 	}
 
 	run() {
@@ -483,11 +248,8 @@ class Population {
 }
 
 
-
 var population = new Population();
 var target = new Target(ctx.width / 2, 150, 20);
-
-
 
 for (i = 0; i < ctx.width * 0.7; i = i + 10) {
 	var obstacle = new Obstacle(50 + i, 300, 10);
