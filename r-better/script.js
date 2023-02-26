@@ -3,6 +3,7 @@ var c = ctx.getContext("2d");
 ctx.width = document.body.clientWidth; //document.width is obsolete
 ctx.height = document.body.clientHeight; //document.height is obsolete
 ctx.width = 500;
+ctx.height = 1000;
 
 var closeness = document.getElementById("closeness").value;
 var fitnesstype = document.getElementById("fitnesstype").value;
@@ -53,6 +54,26 @@ function updatefunction() {
 	population = new Population();
 	generationcount = 0;
 	stats.innerHTML = "";
+	generationList = [0];
+	averageFitList = [0];
+
+	chart = new Chart("chart", {
+		type: "line",
+		data: {
+			labels: generationList,
+			datasets: [{
+			  fill: false,
+			  lineTension: 0.2,
+			  backgroundColor: "rgba(0,0,255,1.0)",
+			  borderColor: "rgba(0,0,255,0.1)",
+			  data: averageFitList
+			}]
+		  },
+		  options: {
+			legend: {display: false}
+		  }
+	  });
+
 }
 
 class Vector2D {

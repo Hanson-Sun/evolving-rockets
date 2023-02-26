@@ -29,12 +29,14 @@ th,td{
 	margin-top:auto;
 	margin-bottom:auto;
 	margin-left:2rem;
+	width: 50%;
 }
 
 #chart {
-	width: 500px !important;
-
+	width: 70% !important;
+	height: auto !important;
 	padding: 10px;
+	margin:auto;
 
 }
 button{
