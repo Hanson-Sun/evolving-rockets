@@ -1,5 +1,5 @@
 class Rocket {
-	constructor(position, velocity, acceleration, dna = new DNA()) {
+	constructor(position, velocity, acceleration, dna) {
 		this.position = position;
 		this.velocity = velocity;
 		this.acceleration = acceleration;
@@ -25,19 +25,19 @@ class Rocket {
 		this.acceleration = this.acceleration.add(gravity)
 	}
 	wallCollisions() {
-		if (this.position.x >= ctx.width) {
+		if (this.position.x > ctx.width) {
 			this.position.x = ctx.width;
 			this.velocity.x *= -1;
 
-		} if (this.position.x <= 0) {
+		} if (this.position.x < 0) {
 			this.position.x = 0;
 			this.velocity.x *= -1;
 
-		} if (this.position.y >= ctx.height) {
+		} if (this.position.y > ctx.height) {
 			this.position.y = ctx.height;
 			this.velocity.y *= -1;
 
-		} if (this.position.y <= 0) {
+		} if (this.position.y < 0) {
 			this.position.y = 0;
 			this.velocity.y *= -1;
 		}
@@ -59,11 +59,12 @@ class Rocket {
 			}
 		}
 	}
+
 	updatePosition() {
 		if (this.count >= lifespan) {
-			var index = rockets.indexOf(this);
+			var index = this.rockets.indexOf(this);
 			if (index > -1) {
-				rockets.splice(index, 1);
+				this.rockets.splice(index, 1);
 			}
 			this.isrun = false;
 		}
@@ -71,23 +72,21 @@ class Rocket {
 			this.obstacleCollision();
 			this.targetCollision();
 			this.calculateCloseness();
-
 			if (!this.completed && !this.crash) {
-
-				this.seek();
-				this.applyGravity();
+				this.applyForce(this.dna.genes[this.count]);
 				this.applyAcceleration();
-
-				if (this.velocity.mag() > maxspeed) {
-					this.velocity = (this.velocity.normalize()).mult(maxspeed)
+				this.applyGravity();
+				if(this.velocity.mag()>5) {
+					this.velocity= (this.velocity.normalize()).mult(5);
 				}
-				this.wallCollisions();
 				this.applyVelocity();
-
+				this.wallCollisions();
 				this.acceleration.mult(0);
 				this.count++;
 			}
+
 		}
+
 	}
 
 	drawPosition() {
@@ -117,7 +116,7 @@ class Rocket {
 		}
 	}
 
-	calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty) {
+	calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty, penalty, bonus) {
 		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
 		var closenessbool = 1;
 		if (closeness == false) {

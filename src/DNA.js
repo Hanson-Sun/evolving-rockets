@@ -1,13 +1,25 @@
 class DNA {
-	constructor(genes) {
+	constructor(genes, size = 6, mutationRange = 1, initialRange = 2, mutationProbability = 0.02) {
+		this.mutationRange = mutationRange;
+		this.initialRange = initialRange;
+		this.size = size;
+		this.mutationProbability = mutationProbability;
 		if (genes) {
 			this.genes = genes;
 		} else {
 			this.genes = [];
-			for (let i = 0; i < 6; i++) {
-				this.genes[i] = Rocket.randomNumber(2);
+			for (let i = 0; i < this.size; i++) {
+				this.genes[i] = this.randomGene();
 			}
 		}
+	}
+
+	randomGene() {
+		return Rocket.randomNumber(this.initialRange);
+	}
+
+	newDNA(newgenes) {
+		return new DNA(newgenes);
 	}
     
     mixedCrossover(partner) {
@@ -21,7 +33,7 @@ class DNA {
 				newgenes[i] = partner.genes[i];
 			}
 		}
-		return new DNA(newgenes);
+		return this.newDNA(newgenes);
     }
 
 	crossover(partner) {
@@ -34,15 +46,14 @@ class DNA {
 			else {
 				newgenes[i] = partner.genes[i];
 			}
-
 		}
 		return new DNA(newgenes);
 	}
 
 	mutation() {
 		for (let i = 0; i < this.genes.length; i++) {
-			if (Math.random() < 0.02) {
-				this.genes[i] = Rocket.randomNumber(1);
+			if (Math.random() < this.mutationProbability) {
+				this.genes[i] = Rocket.randomNumber(this.mutationRange);
 			}
 		}
 	}

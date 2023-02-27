@@ -58,7 +58,7 @@ function updatefunction() {
 	if (populationsize < 100) {
 		populationsize = 100;
 	}
-	population = new SmartPopulation();
+	population = new SmartPopulation(ctx, populationsize);
 	generationcount = 0;
 	stats.innerHTML = "";
 	generationList = [0];
@@ -96,8 +96,64 @@ function generateObstacles() {
 	}
 }
 
+class SmartDNA extends DNA {
+	constructor(genes) {
+		super(genes);
+	}
+
+	crossover(partner) {
+		var newgenes = [];
+		var mid = Math.floor(Math.random() * this.genes.length);
+		for (let i = 0; i < this.genes.length; i++) {
+			if (i < mid) {
+				newgenes[i] = this.genes[i];
+			}
+			else {
+				newgenes[i] = partner.genes[i];
+			}
+		}
+		return new SmartDNA(newgenes);
+	}
+}
 
 class SmartRocket extends Rocket {
+
+	constructor(position, velocity, acceleration, dna = new SmartDNA()) {
+        super(position, velocity, acceleration, dna);
+	}
+
+	updatePosition() {
+		if (this.count >= lifespan) {
+			var index = this.rockets.indexOf(this);
+			if (index > -1) {
+				this.rockets.splice(index, 1);
+			}
+			this.isrun = false;
+		}
+
+		if (this.isrun) {
+			this.obstacleCollision();
+			this.targetCollision();
+			this.calculateCloseness();
+
+			if (!this.completed && !this.crash) {
+
+				this.seek();
+				this.applyGravity();
+				this.applyAcceleration();
+
+				if (this.velocity.mag() > maxspeed) {
+					this.velocity = (this.velocity.normalize()).mult(maxspeed)
+				}
+				this.wallCollisions();
+				this.applyVelocity();
+
+				this.acceleration.mult(0);
+				this.count++;
+			}
+		}
+	}
+
 	seek() {
 		this.closestx = Infinity;
 		this.closesty = Infinity;
@@ -137,29 +193,34 @@ class SmartRocket extends Rocket {
 
 
 class SmartPopulation extends Population {
-	constructor() {
-		super();
+	constructor(ctx, populationsize) {
+		super(ctx, populationsize);
 		for (let i = 0; i < this.size; i++) {
-			this.rockets.push(SmartPopulation.generateRocket(pos.x, pos.y, Rocket.randomNumber(1), 0, 0, 0));
+			this.generateRocket(pos.x, pos.y, Rocket.randomNumber(1), 0, 0, 0);
 		}
 	}
 
-	static generateRocket(x, y, vx, vy, ax, ay) {
+	calculateFitness(r) {
+		r.calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty, penalty, bonus);
+	}
+
+	generateRocket(x, y, vx, vy, ax, ay) {
 		var pos = new Vector2D(x, y);
 		var vel = new Vector2D(vx, vy);
 		var a = new Vector2D(ax, ay);
 		var r = new SmartRocket(pos, vel, a);
+		this.rockets.push(r);
 		return r;
 	}
+
 }
 
 
-var population = new SmartPopulation();
+var population = new SmartPopulation(ctx, populationsize);
 var target = new Target(ctx.width / 2, 150, 20);
 generateObstacles();
 
 function animate() {
-	rockets = [];
 	c.clearRect(0, 0, ctx.width, ctx.height);
 
 	target.targetDraw();
@@ -170,7 +231,7 @@ function animate() {
 	population.run();
 	population.populationcount++;
 	if (population.populationcount >= lifespan) {
-		population.evaluate();
+		population.evaluate(scale);
 		population.selection();
 		population.populationcount = 0;
 	}
