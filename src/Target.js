@@ -3,8 +3,8 @@ class Target {
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
-		targets.push(this);
 	}
+	
 	targetDraw() {
 		c.beginPath();
 		c.fillStyle = "rgb(11, 227, 69)";

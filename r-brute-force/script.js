@@ -88,6 +88,7 @@ ctx.addEventListener("mousedown", function (evt) {
 }, false);
 
 var gravity = new Vector2D(0, 0.001);
+var rockets = [];
 var targets = [];
 var obstacles = [];
 var lifespan = 350;
@@ -136,7 +137,7 @@ class Rocket {
 		this.completed = false;
 		this.crash = false;
 		this.count = 0;
-		//rockets.push(this);
+		rockets.push(this);
 		this.isrun = true;
 		this.fitness = 0;
 		this.closeness = Infinity;
@@ -154,19 +155,19 @@ class Rocket {
 		this.acceleration = this.acceleration.add(gravity)
 	}
 	wallCollisions() {
-		if (this.position.x > ctx.width) {
+		if (this.position.x >= ctx.width) {
 			this.position.x = ctx.width;
 			this.velocity.x *= -1;
 
-		} if (this.position.x < 0) {
+		} if (this.position.x <= 0) {
 			this.position.x = 0;
 			this.velocity.x *= -1;
 
-		} if (this.position.y > ctx.height) {
+		} if (this.position.y >= ctx.height) {
 			this.position.y = ctx.height;
 			this.velocity.y *= -1;
 
-		} if (this.position.y < 0) {
+		} if (this.position.y <= 0) {
 			this.position.y = 0;
 			this.velocity.y *= -1;
 		}
@@ -190,9 +191,9 @@ class Rocket {
 	}
 	updatePosition() {
 		if (this.count >= lifespan) {
-			var index = this.rockets.indexOf(this);
+			var index = rockets.indexOf(this);
 			if (index > -1) {
-				this.rockets.splice(index, 1);
+				rockets.splice(index, 1);
 			}
 			this.isrun = false;
 		}
@@ -210,7 +211,9 @@ class Rocket {
 				this.acceleration.mult(0);
 				this.count++;
 			}
+
 		}
+
 	}
 
 	drawPosition() {
@@ -302,17 +305,16 @@ function generateRocket(x, y, vx, vy, ax, ay) {
 	vel = new Vector2D(vx, vy);
 	a = new Vector2D(ax, ay);
 	r = new Rocket(pos, vel, a)
-	return r;
 }
 
 class Population {
 	constructor() {
-		this.rockets = [];
+		this.rockets = rockets;
 		this.size = 1000;
 		this.populationcount = 0;
 		this.matingpool = [];
 		for (let i = 0; i < this.size; i++) {
-			this.rockets.push(generateRocket(pos.x, pos.y, 0, 0, 0, 0));
+			generateRocket(pos.x, pos.y, 0, 0, 0, 0);
 		}
 	}
 
@@ -320,18 +322,17 @@ class Population {
 	evaluate() {
 		var maxfit = 0;
 
-		for (let rocket of this.rockets) {
+		for (let rocket of rockets) {
 			rocket.calcFitness();
 			if (rocket.fitness > maxfit) {
 				maxfit = rocket.fitness;
 			}
 		}
-		for (let rocket of this.rockets) {
+		for (let rocket of rockets) {
 			rocket.fitness /= maxfit;
 		}
-
 		this.matingpool = [];
-		for (let rocket of this.rockets) {
+		for (let rocket of rockets) {
 			var n = rocket.fitness * 100;
 			for (var j = 0; j < n; j++) {
 				this.matingpool.push(rocket);
@@ -340,7 +341,7 @@ class Population {
 	}
 
 	selection() {
-		this.rockets = [];
+		var newpopulation = [];
 		for (var i = 0; i < this.size; i++) {
 
 			var parent1 = this.matingpool[Math.floor(Math.random() * this.matingpool.length)].dna;
@@ -352,9 +353,9 @@ class Population {
 			vel = new Vector2D(0, 0);
 			a = new Vector2D(0, 0);
 			var newrocket = new Rocket(pos, vel, a, child);
-			this.rockets.push(newrocket);
+			newpopulation.push(newrocket);
 		}
-		//his.rockets = newpopulation;
+		this.rockets = newpopulation;
 
 	}
 
@@ -370,7 +371,7 @@ class Population {
 
 
 var population = new Population();
-var target = new Target(ctx.width / 2, 150, 20);
+targets.push(new Target(ctx.width / 2, 150, 20));
 
 for (i = 0; i < ctx.width * 0.7; i = i + 10) {
 	var obstacle = new Obstacle(50 + i, 300, 10);

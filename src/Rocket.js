@@ -1,5 +1,5 @@
 class Rocket {
-	constructor(position, velocity, acceleration, dna) {
+	constructor(position, velocity, acceleration, dna = new DNA()) {
 		this.position = position;
 		this.velocity = velocity;
 		this.acceleration = acceleration;
@@ -10,7 +10,8 @@ class Rocket {
 		this.isrun = true;
 		this.fitness = 0;
 		this.closeness = Infinity;
-		this.error;
+		// bruh what is this??
+		this.error = false;
 	}
 	applyForce(x) {
 		this.acceleration = this.acceleration.add(x)
@@ -25,46 +26,69 @@ class Rocket {
 		this.acceleration = this.acceleration.add(gravity)
 	}
 	wallCollisions() {
-		if (this.position.x > ctx.width) {
+		if (this.position.x >= ctx.width) {
 			this.position.x = ctx.width;
 			this.velocity.x *= -1;
 
-		} if (this.position.x < 0) {
+<<<<<<< HEAD
+		} 
+		
+		if (this.position.x < 0) {
 			this.position.x = 0;
 			this.velocity.x *= -1;
 
-		} if (this.position.y > ctx.height) {
+		} 
+		
+		if (this.position.y > ctx.height) {
 			this.position.y = ctx.height;
 			this.velocity.y *= -1;
 
-		} if (this.position.y < 0) {
+		} 
+		
+		if (this.position.y < 0) {
+=======
+		} if (this.position.x <= 0) {
+			this.position.x = 0;
+			this.velocity.x *= -1;
+
+		} if (this.position.y >= ctx.height) {
+			this.position.y = ctx.height;
+			this.velocity.y *= -1;
+
+		} if (this.position.y <= 0) {
+>>>>>>> parent of 0b62018 (resolved DNA bugs)
 			this.position.y = 0;
 			this.velocity.y *= -1;
 		}
 	}
 
 
-	targetCollision() {
-		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
-		if (distance < target.radius * target.radius) {
-			this.completed = true;
+	targetCollision(targets) {
+		for (let target of targets) {
+			let distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+			if (distance < target.radius * target.radius) {
+				this.completed = true;
+			}
 		}
 	}
 
 	obstacleCollision() {
-		for (o of obstacles) {
-			var distance = ((this.position.x - o.x) ** 2 + (this.position.y - o.y) ** 2);
+		for (let o of obstacles) {
+			let distance = ((this.position.x - o.x) ** 2 + (this.position.y - o.y) ** 2);
 			if (distance < o.radius * o.radius) {
 				this.crash = true;
 			}
 		}
 	}
-
 	updatePosition() {
 		if (this.count >= lifespan) {
-			var index = this.rockets.indexOf(this);
+<<<<<<< HEAD
+			let index = this.rockets.indexOf(this);
+=======
+			var index = rockets.indexOf(this);
+>>>>>>> parent of 0b62018 (resolved DNA bugs)
 			if (index > -1) {
-				this.rockets.splice(index, 1);
+				rockets.splice(index, 1);
 			}
 			this.isrun = false;
 		}
@@ -72,29 +96,31 @@ class Rocket {
 			this.obstacleCollision();
 			this.targetCollision();
 			this.calculateCloseness();
+
 			if (!this.completed && !this.crash) {
-				this.applyForce(this.dna.genes[this.count]);
-				this.applyAcceleration();
+
+				this.seek();
 				this.applyGravity();
-				if(this.velocity.mag()>5) {
-					this.velocity= (this.velocity.normalize()).mult(5);
+				this.applyAcceleration();
+
+				if (this.velocity.mag() > maxspeed) {
+					this.velocity = (this.velocity.normalize()).mult(maxspeed)
 				}
-				this.applyVelocity();
 				this.wallCollisions();
+				this.applyVelocity();
+
 				this.acceleration.mult(0);
 				this.count++;
 			}
-
 		}
-
 	}
 
 	drawPosition() {
 		//0.244978,  22.36067977 1.5707
-		var hyp = 11.180;
-		var angle = 1.5707;
-		var theta = Math.atan2(-this.velocity.x, this.velocity.y) + angle;
-		var path = new Path2D();
+		let hyp = 11.180;
+		let angle = 1.5707;
+		let theta = Math.atan2(-this.velocity.x, this.velocity.y) + angle;
+		let path = new Path2D();
 		path.moveTo(this.position.x + hyp * Math.cos(theta + 3.6051521), this.position.y + hyp * Math.sin(theta + 3.6051521));
 		path.lineTo(this.position.x + 20 * Math.cos(theta), this.position.y + 20 * Math.sin(theta));
 		path.lineTo(this.position.x + hyp * Math.cos(theta + 2.67785867), this.position.y + hyp * Math.sin(theta + 2.67785867));
@@ -110,15 +136,21 @@ class Rocket {
 
 
 	calculateCloseness() {
-		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		let distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
 		if (distance < this.closeness) {
 			this.closeness = distance;
 		}
 	}
 
+<<<<<<< HEAD
 	calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty, penalty, bonus) {
+		let distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
+		let closenessbool = 1;
+=======
+	calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty) {
 		var distance = ((this.position.x - target.x) ** 2 + (this.position.y - target.y) ** 2);
 		var closenessbool = 1;
+>>>>>>> parent of 0b62018 (resolved DNA bugs)
 		if (closeness == false) {
 			closenessbool = 0;
 		}

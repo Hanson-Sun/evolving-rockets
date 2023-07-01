@@ -1,5 +1,5 @@
-var ctx = document.getElementById("test");
-var c = ctx.getContext("2d");
+const ctx = document.getElementById("test");
+const c = ctx.getContext("2d");
 ctx.width = document.body.clientWidth; //document.width is obsolete
 ctx.height = document.body.clientHeight; //document.height is obsolete
 ctx.width = 500;
@@ -14,21 +14,21 @@ var penalty = document.getElementById("penalty").value;
 var scale = document.getElementById("scale").value;
 var populationsize = document.getElementById("size").value;
 
-var generationcount = 0;
-var sucessnumber = 0;
+let generationcount = 0;
+let sucessnumber = 0;
 
-var generationList =[0];
-var averageFitList = [0];
+let generationList =[0];
+let averageFitList = [0];
 
-var gravity = new Vector2D(0, 0.3);
-var targets = [];
-var obstacles = [];
-var lifespan = 350;
-var pos = new Vector2D(ctx.width / 2, ctx.height - 2);
-var maxspeed = 4;
-var maxforce = 5;
+const gravity = new Vector2D(0, 0.3);
+let targets = [];
+let obstacles = [];
+const lifespan = 350;
+let pos = new Vector2D(ctx.width / 2, ctx.height - 2);
+const maxspeed = 4;
+const maxforce = 5;
 
-var chart = new Chart("chart", {
+let chart = new Chart("chart", {
 	type: "line",
 	data: {
 		labels: generationList,
@@ -58,7 +58,7 @@ function updatefunction() {
 	if (populationsize < 100) {
 		populationsize = 100;
 	}
-	population = new SmartPopulation(ctx, populationsize);
+	population = new SmartPopulation();
 	generationcount = 0;
 	stats.innerHTML = "";
 	generationList = [0];
@@ -85,75 +85,19 @@ function updatefunction() {
 
 function generateObstacles() {
 	for (i = 0; i < ctx.width * 0.7; i = i + 10) {
-		var obstacle = new Obstacle(50 + i, 300, 10);
+		obstacles.push(new Obstacle(50 + i, 300, 10));
 	}
 	for (i = 0; i < ctx.width * 1; i = i + 10) {
-		var obstacle = new Obstacle(1 + i, 60, 10);
+		obstacles.push(new Obstacle(1 + i, 60, 10));
 	}
 	
 	for (i = 0; i < ctx.width * 0.5; i = i + 10) {
-		var obstacle = new Obstacle(100 + i, 400, 10);
+		obstacles.push(new Obstacle(100 + i, 400, 10));
 	}
 }
 
-class SmartDNA extends DNA {
-	constructor(genes) {
-		super(genes);
-	}
-
-	crossover(partner) {
-		var newgenes = [];
-		var mid = Math.floor(Math.random() * this.genes.length);
-		for (let i = 0; i < this.genes.length; i++) {
-			if (i < mid) {
-				newgenes[i] = this.genes[i];
-			}
-			else {
-				newgenes[i] = partner.genes[i];
-			}
-		}
-		return new SmartDNA(newgenes);
-	}
-}
 
 class SmartRocket extends Rocket {
-
-	constructor(position, velocity, acceleration, dna = new SmartDNA()) {
-        super(position, velocity, acceleration, dna);
-	}
-
-	updatePosition() {
-		if (this.count >= lifespan) {
-			var index = this.rockets.indexOf(this);
-			if (index > -1) {
-				this.rockets.splice(index, 1);
-			}
-			this.isrun = false;
-		}
-
-		if (this.isrun) {
-			this.obstacleCollision();
-			this.targetCollision();
-			this.calculateCloseness();
-
-			if (!this.completed && !this.crash) {
-
-				this.seek();
-				this.applyGravity();
-				this.applyAcceleration();
-
-				if (this.velocity.mag() > maxspeed) {
-					this.velocity = (this.velocity.normalize()).mult(maxspeed)
-				}
-				this.wallCollisions();
-				this.applyVelocity();
-
-				this.acceleration.mult(0);
-				this.count++;
-			}
-		}
-	}
-
 	seek() {
 		this.closestx = Infinity;
 		this.closesty = Infinity;
@@ -193,37 +137,41 @@ class SmartRocket extends Rocket {
 
 
 class SmartPopulation extends Population {
-	constructor(ctx, populationsize) {
-		super(ctx, populationsize);
+	constructor() {
+		super();
 		for (let i = 0; i < this.size; i++) {
-			this.generateRocket(pos.x, pos.y, Rocket.randomNumber(1), 0, 0, 0);
+			this.rockets.push(SmartPopulation.generateRocket(pos.x, pos.y, Rocket.randomNumber(1), 0, 0, 0));
 		}
 	}
 
-	calculateFitness(r) {
-		r.calcFitness(closeness, fitnesstype, sucessbonus, collidepenalty, penalty, bonus);
-	}
-
-	generateRocket(x, y, vx, vy, ax, ay) {
+	static generateRocket(x, y, vx, vy, ax, ay) {
 		var pos = new Vector2D(x, y);
 		var vel = new Vector2D(vx, vy);
 		var a = new Vector2D(ax, ay);
 		var r = new SmartRocket(pos, vel, a);
-		this.rockets.push(r);
 		return r;
 	}
-
 }
 
 
-var population = new SmartPopulation(ctx, populationsize);
+<<<<<<< HEAD
+let population = new SmartPopulation(ctx, populationsize);
+targets.push(new Target(ctx.width / 2, 150, 20));
+=======
+var population = new SmartPopulation();
 var target = new Target(ctx.width / 2, 150, 20);
+>>>>>>> parent of 0b62018 (resolved DNA bugs)
 generateObstacles();
 
 function animate() {
+	rockets = [];
 	c.clearRect(0, 0, ctx.width, ctx.height);
 
-	target.targetDraw();
+	for (let target of targets) {
+		target.targetDraw();
+	}
+
+	
 	for (o of obstacles) {
 		o.obstacleDraw();
 	}
@@ -231,7 +179,7 @@ function animate() {
 	population.run();
 	population.populationcount++;
 	if (population.populationcount >= lifespan) {
-		population.evaluate(scale);
+		population.evaluate();
 		population.selection();
 		population.populationcount = 0;
 	}

@@ -37,16 +37,17 @@ var chart = new Chart("chart", {
 
 function generateObstacles() {
 	for (i = 0; i < ctx.width * 0.7; i = i + 10) {
-		var obstacle = new Obstacle(50 + i, 300, 10);
+		obstacles.push(new Obstacle(50 + i, 300, 10));
 	}
 	for (i = 0; i < ctx.width * 1; i = i + 10) {
-		var obstacle = new Obstacle(1 + i, 60, 10);
+		obstacles.push(new Obstacle(1 + i, 60, 10));
 	}
 	
 	for (i = 0; i < ctx.width * 0.5; i = i + 10) {
-		var obstacle = new Obstacle(100 + i, 400, 10);
+		obstacles.push(new Obstacle(100 + i, 400, 10));
 	}
 }
+
 
 class BruteForceDNA extends DNA {
 	constructor(genes) {
@@ -146,8 +147,10 @@ generateObstacles();
 function animate() {
 	c.clearRect(0, 0, ctx.width, ctx.height);
 
-	target.targetDraw();
-	for (o of obstacles) {
+	for (let target of targets) {
+		target.targetDraw();
+	}
+	for (let o of obstacles) {
 		o.obstacleDraw();
 	}
 

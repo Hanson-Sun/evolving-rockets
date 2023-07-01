@@ -3,7 +3,6 @@ class Obstacle {
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
-		obstacles.push(this);
 	}
 	obstacleDraw() {
 		c.beginPath();
